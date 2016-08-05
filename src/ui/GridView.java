@@ -17,11 +17,11 @@ public class GridView extends HBox{
 	}
 	
 	public int getX(){
-		return aX;
+		return aY;
 	}
 	
 	public int getY(){
-		return aY;
+		return aX;
 	}
 	
 	public Color getColor(){
