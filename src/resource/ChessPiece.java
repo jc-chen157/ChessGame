@@ -4,7 +4,9 @@ public class ChessPiece {
 	
 	private Color aColor;
 	private PieceType aType;
-	
+	private int aX;
+    private int aY;
+
 	public ChessPiece(Color pColor, PieceType pType){
 		aColor = pColor;
 		aType = pType;
@@ -25,5 +27,18 @@ public class ChessPiece {
 		String finalType = type.substring(0, 1).toUpperCase() + type.substring(1);
 		return color + finalType;
 	}
+
+    public void setPosition(int pX, int pY){
+        aX = pX;
+        aY = pY;
+    }
+
+    public int getX(){
+        return aX;
+    }
+
+    public int getY(){
+        return aY;
+    }
 	
 }

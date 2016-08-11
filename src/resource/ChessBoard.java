@@ -59,10 +59,12 @@ public class ChessBoard {
     	return aBoard[pX][pY];
     }
     
-    public void removePiece(ChessPiece pChess){
+    public void removePiece(int pX, int pY){
+        aBoard[pX][pY] = null;
     }
     
-    public void addPiece(ChessPiece pChess){
+    public void addPiece(ChessPiece pChess, int pX, int pY){
+        aBoard[pX][pY] = pChess;
     }
     
     

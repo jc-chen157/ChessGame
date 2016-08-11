@@ -1,5 +1,6 @@
 package ui;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import model.GameModel;
 import model.UIObserver;
 import resource.ChessPiece;
 import resource.Color;
+import rules.Referee;
 
 public class ChessBoardView extends GridPane implements UIObserver{
 	
@@ -60,14 +62,13 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	 */
 	@Override
 	public void updateView() {
-		// TODO Auto-generated method stub
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
 				ChessPiece piece = GameModel.getInstance().getChessPiece(i, j);
 				if(piece != null){
 					String path = "file:images/" + piece.toString() + ".png";
 					ImageView chessImage = new ImageView(new Image(path));
-					PieceLabel chessLabel = new PieceLabel(chessImage, piece);
+					PieceLabel chessLabel = new PieceLabel(chessImage, piece, null);
 					
 					addSelectionListenerToChessPiece(chessLabel);
 					for(Node child: this.getChildren()){
@@ -75,6 +76,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 							GridView grid = (GridView) child;
 							if(grid.getX() == i && grid.getY() == j){
 								grid.getChildren().add(chessLabel);
+                                chessLabel.updatePosition(grid);
 							}
 						}
 					}
@@ -83,8 +85,13 @@ public class ChessBoardView extends GridPane implements UIObserver{
 		}
 		this.setPrefSize(640, 640);
 		this.setVisible(true);
-	}
-	
+        GameModel.getInstance().printBackEnd();
+    }
+
+	/**
+	 * Add listener to Chess Pieces. Should delegate the job to PieceLabel itself.
+	 * @param pLabel
+     */
 	private void addSelectionListenerToChessPiece(PieceLabel pLabel){
 		pLabel.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
@@ -101,24 +108,34 @@ public class ChessBoardView extends GridPane implements UIObserver{
 			}
 		});
 	}
-	
+
+	/**
+	 * Add listener to Grid. Again this job should be delegated to GridView itself.
+	 * @param pGrid
+     */
 	private void addSelectionListenerToGrid(GridView pGrid){
 		pGrid.setOnMouseClicked(new EventHandler<MouseEvent>(){
-
 			@Override
 			public void handle(MouseEvent event) {
+				// if no ChessPiece is selected, nothing happens.
 				if(selectedPiece == null){
 					return;
 				}else{
-					for(GridView grid: chessBoard){
-						if(!grid.getChildren().isEmpty() && ((PieceLabel) grid.getChildren().get(0)) == selectedPiece){
-							grid.getChildren().clear();
-							pGrid.getChildren().add(selectedPiece);
-						}
-					}
+                    // update UI and Model
+					if(Referee.isValidMove(selectedPiece.getChessPiece(), pGrid)){
+                        GameModel.getInstance().getChessBoard().removePiece(selectedPiece.getChessPiece().getX(),
+                                selectedPiece.getChessPiece().getY());
+                        GameModel.getInstance().getChessBoard().addPiece(selectedPiece.getChessPiece(),selectedPiece.getChessPiece().getX(),
+                                selectedPiece.getChessPiece().getY());
+                        selectedPiece.getCurrentGrid().getChildren().clear();
+                        selectedPiece.updatePosition(pGrid);
+                        selectedPiece.setStyle("");
+                        selectedPiece.select(false);
+                        pGrid.getChildren().add(selectedPiece);
+                        selectedPiece = null;
+                    }
 				}
 			}
-			
 		});
 	}
 }

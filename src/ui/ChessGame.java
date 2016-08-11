@@ -9,6 +9,9 @@ import model.GameModel;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
 
+/**
+ * Main Class of the whole game. Start the Game.
+ */
 public class ChessGame extends Application{
 	
 	private static final int MARGIN_OUTER = 10;
