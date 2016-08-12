@@ -96,7 +96,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 		pLabel.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
-				if(!pLabel.isSelected()){
+				if(!pLabel.isSelected() && selectedPiece == null){
 					pLabel.setStyle("-fx-border-color: orange;");
 					pLabel.select(true);
 					selectedPiece = pLabel;
@@ -123,6 +123,10 @@ public class ChessBoardView extends GridPane implements UIObserver{
 				}else{
                     // update UI and Model
 					if(Referee.isValidMove(selectedPiece.getChessPiece(), pGrid)){
+						/*
+						 * TODO: Using NotifyObserver instead of directly modify the UI at UI Class. 
+						 * So that all the moves will be handled at the back-end.  
+						 */
                         GameModel.getInstance().getChessBoard().removePiece(selectedPiece.getChessPiece().getX(),
                                 selectedPiece.getChessPiece().getY());
                         GameModel.getInstance().getChessBoard().addPiece(selectedPiece.getChessPiece(),selectedPiece.getChessPiece().getX(),
