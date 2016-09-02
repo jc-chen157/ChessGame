@@ -18,6 +18,12 @@ import resource.ChessPiece;
 import resource.Color;
 import rules.Referee;
 
+/**
+ * Main UI Class, aggregate the Piece Label and Grid View. 
+ * Also add listener to those Classes.
+ * @author JiajunChen
+ *
+ */
 public class ChessBoardView extends GridPane implements UIObserver{
 	
 	private PieceLabel selectedPiece = null;
@@ -59,6 +65,9 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	/**
 	 * At this point, a pull has been used. Really a push design would
 	 * be so much better. 
+	 * Also, use a repo to store all potential chess piece label so that
+	 * during the game it doesnt have to load images again. redo this part
+	 * 
 	 */
 	@Override
 	public void updateView() {
@@ -123,19 +132,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 				}else{
                     // update UI and Model
 					if(Referee.isValidMove(selectedPiece.getChessPiece(), pGrid)){
-						/*
-						 * TODO: Using NotifyObserver instead of directly modify the UI at UI Class. 
-						 * So that all the moves will be handled at the back-end.  
-						 */
-                        GameModel.getInstance().getChessBoard().removePiece(selectedPiece.getChessPiece().getX(),
-                                selectedPiece.getChessPiece().getY());
-                        GameModel.getInstance().getChessBoard().addPiece(selectedPiece.getChessPiece(),selectedPiece.getChessPiece().getX(),
-                                selectedPiece.getChessPiece().getY());
-                        selectedPiece.getCurrentGrid().getChildren().clear();
-                        selectedPiece.updatePosition(pGrid);
-                        selectedPiece.setStyle("");
-                        selectedPiece.select(false);
-                        pGrid.getChildren().add(selectedPiece);
+						GameModel.getInstance().updateUI();
                         selectedPiece = null;
                     }
 				}

@@ -42,6 +42,10 @@ public class GameModel {
 			observer.updateView();
 		}
 	}
+	
+	public void updateUI(){
+		notifyObserver();
+	}
 
     public void printBackEnd(){
         for(int i = 0; i < 8; i++){
