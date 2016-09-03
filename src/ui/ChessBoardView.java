@@ -1,13 +1,11 @@
 package ui;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -29,6 +27,9 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	private PieceLabel selectedPiece = null;
 	private List<GridView> chessBoard = new ArrayList<>();
 	
+	/**
+	 * The constructor sets the board view. 
+	 */
 	public ChessBoardView(){
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
@@ -58,19 +59,10 @@ public class ChessBoardView extends GridPane implements UIObserver{
 		this.setVisible(true);
 	}
 	
-	public void init(){
-		
-	}
-
 	/**
-	 * At this point, a pull has been used. Really a push design would
-	 * be so much better. 
-	 * Also, use a repo to store all potential chess piece label so that
-	 * during the game it doesnt have to load images again. redo this part
-	 * 
+	 * Initial
 	 */
-	@Override
-	public void updateView() {
+	public void initializeView(){
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
 				ChessPiece piece = GameModel.getInstance().getChessPiece(i, j);
@@ -78,7 +70,6 @@ public class ChessBoardView extends GridPane implements UIObserver{
 					String path = "file:images/" + piece.toString() + ".png";
 					ImageView chessImage = new ImageView(new Image(path));
 					PieceLabel chessLabel = new PieceLabel(chessImage, piece, null);
-					
 					addSelectionListenerToChessPiece(chessLabel);
 					for(Node child: this.getChildren()){
 						if(child instanceof GridView){
@@ -95,6 +86,20 @@ public class ChessBoardView extends GridPane implements UIObserver{
 		this.setPrefSize(640, 640);
 		this.setVisible(true);
         GameModel.getInstance().printBackEnd();
+	}
+	
+	
+
+	/**
+	 * At this point, a pull has been used. Really a push design would
+	 * be so much better. 
+	 * Also, use a repo to store all potential chess piece label so that
+	 * during the game it doesnt have to load images again. redo this part
+	 * 
+	 */
+	@Override
+	public void updateView() {
+		initializeView();
     }
 
 	/**
