@@ -1,10 +1,10 @@
-package model;
+package gameModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import resource.ChessBoard;
-import resource.ChessPiece;
+import gameResource.ChessBoard;
+import gameResource.ChessPiece;
 
 /**
  * The bridge between back-end and front-end of the chess game.

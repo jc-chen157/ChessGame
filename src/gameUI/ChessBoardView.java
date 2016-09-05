@@ -1,8 +1,13 @@
-package ui;
+package gameUI;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import gameModel.GameModel;
+import gameModel.RuleBook;
+import gameModel.UIObserver;
+import gameResource.ChessPiece;
+import gameResource.Color;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -10,11 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import model.GameModel;
-import model.UIObserver;
-import resource.ChessPiece;
-import resource.Color;
-import rules.RuleBook;
 
 /**
  * Main UI Class, aggregate the Piece Label and Grid View. 
@@ -93,6 +93,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	 * Also, use a repo to store all potential chess piece label so that
 	 * during the game it doesnt have to load images again. redo this part
 	 * 
+	 * TODO: Improve efficiency. To be considered later.
 	 */
 	@Override
 	public void updateView() {

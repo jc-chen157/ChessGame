@@ -1,4 +1,4 @@
-package resource;
+package gameResource;
 
 public class ChessPiece {
 	
@@ -6,10 +6,12 @@ public class ChessPiece {
 	private PieceType aType;
 	private int aX;
     private int aY;
+    private boolean hasMoved;
 
 	public ChessPiece(Color pColor, PieceType pType){
 		aColor = pColor;
 		aType = pType;
+		hasMoved = false;
 	}
 	
 	public Color getColor(){
@@ -39,6 +41,18 @@ public class ChessPiece {
 
     public int getY(){
         return aY;
+    }
+    
+    /**
+     * Only Invoke this method if king has Moved.
+     * @return
+     */
+    public boolean hasMoved(){
+    	return hasMoved;
+    }
+    
+    public void moved(){
+    	hasMoved = true;
     }
 	
 }

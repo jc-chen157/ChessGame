@@ -1,8 +1,8 @@
-package ui;
+package gameUI;
 
+import gameResource.ChessPiece;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import resource.ChessPiece;
 
 public class PieceLabel extends Label{
 	private boolean isSelected;

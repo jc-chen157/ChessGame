@@ -1,11 +1,11 @@
-package ui;
+package gameUI;
 
+import gameModel.GameModel;
 import javafx.application.*;
 
 import javafx.scene.*;
 import javafx.scene.control.Label;
 import javafx.stage.*;
-import model.GameModel;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
 
