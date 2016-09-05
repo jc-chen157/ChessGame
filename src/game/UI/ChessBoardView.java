@@ -1,13 +1,13 @@
-package gameUI;
+package game.UI;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import gameModel.GameModel;
-import gameModel.RuleBook;
-import gameModel.UIObserver;
-import gameResource.ChessPiece;
-import gameResource.Color;
+import game.Model.GameModel;
+import game.Model.RuleBook;
+import game.Model.UIObserver;
+import game.Resource.ChessPiece;
+import game.Resource.Color;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;

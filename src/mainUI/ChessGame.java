@@ -1,6 +1,7 @@
-package gameUI;
+package mainUI;
 
-import gameModel.GameModel;
+import game.Model.GameModel;
+import game.UI.ChessBoardView;
 import javafx.application.*;
 
 import javafx.scene.*;
@@ -23,26 +24,28 @@ public class ChessGame extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
+		// set up the root.
 		primaryStage.setTitle("Chess");
 		GridPane root = new GridPane();
         root.setHgap(MARGIN_OUTER);
         root.setVgap(MARGIN_OUTER);
         root.setPadding(new Insets(MARGIN_OUTER));
-        
        
+        // initialize the game.
         GameModel model = GameModel.getInstance();
         ChessBoardView chessBoard = new ChessBoardView();
         model.addObserver(chessBoard);
         model.reset();
         
-        root.add(new Label(""), 0, 0);
+        // assemble different UI parts.
+        root.add(new Label("aaa"), 0, 0);
         root.add(chessBoard, 1, 0);
-        root.add(new Label(""), 2, 0);
+        root.add(new Label("bbb"), 2, 0);
         
-		Scene mainBoard = new Scene(root, 1000, 800);
+        // launch.
+		Scene mainBoard = new Scene(root, 800, 800);
 		primaryStage.setScene(mainBoard);
 		primaryStage.setResizable(false);
 		primaryStage.show();
-		
 	}
 }

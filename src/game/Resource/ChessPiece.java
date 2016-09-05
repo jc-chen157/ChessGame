@@ -1,4 +1,4 @@
-package gameResource;
+package game.Resource;
 
 public class ChessPiece {
 	

@@ -1,9 +1,9 @@
-package gameModel;
+package game.Model;
 
-import gameResource.ChessPiece;
-import gameResource.Color;
-import gameResource.PieceType;
-import gameUI.GridView;
+import game.Resource.ChessPiece;
+import game.Resource.Color;
+import game.Resource.PieceType;
+import game.UI.GridView;
 
 /**
  * A static Class that verify if a move is legal.
@@ -368,5 +368,4 @@ public class RuleBook {
     }
     // System.out.println("Piece position " + pPiece.getX() + ", " + pPiece.getY() );
 	// System.out.println("Grid position " + pGrid.getX() + ", " + pGrid.getY() );
-
 }
