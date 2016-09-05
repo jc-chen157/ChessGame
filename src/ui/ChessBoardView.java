@@ -67,7 +67,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 			for(int j = 0; j < 8; j++){
 				ChessPiece piece = GameModel.getInstance().getChessPiece(i, j);
 				if(piece != null){
-					String path = "file:images/" + piece.toString() + ".png";
+					String path = piece.toString() + ".png";
 					ImageView chessImage = new ImageView(new Image(path));
 					PieceLabel chessLabel = new PieceLabel(chessImage, piece, null);
 					addSelectionListenerToChessPiece(chessLabel);
