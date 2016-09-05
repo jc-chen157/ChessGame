@@ -14,7 +14,7 @@ import model.GameModel;
 import model.UIObserver;
 import resource.ChessPiece;
 import resource.Color;
-import rules.Referee;
+import rules.RuleBook;
 
 /**
  * Main UI Class, aggregate the Piece Label and Grid View. 
@@ -76,7 +76,6 @@ public class ChessBoardView extends GridPane implements UIObserver{
 							GridView grid = (GridView) child;
 							if(grid.getX() == i && grid.getY() == j){
 								grid.getChildren().add(chessLabel);
-                                chessLabel.updatePosition(grid);
 							}
 						}
 					}
@@ -85,10 +84,8 @@ public class ChessBoardView extends GridPane implements UIObserver{
 		}
 		this.setPrefSize(640, 640);
 		this.setVisible(true);
-        GameModel.getInstance().printBackEnd();
+//      GameModel.getInstance().printBackEnd();
 	}
-	
-	
 
 	/**
 	 * At this point, a pull has been used. Really a push design would
@@ -99,6 +96,9 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	 */
 	@Override
 	public void updateView() {
+		for(GridView grid: chessBoard){
+			grid.getChildren().clear();
+		}
 		initializeView();
     }
 
@@ -110,14 +110,18 @@ public class ChessBoardView extends GridPane implements UIObserver{
 		pLabel.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
-				if(!pLabel.isSelected() && selectedPiece == null){
-					pLabel.setStyle("-fx-border-color: orange;");
-					pLabel.select(true);
-					selectedPiece = pLabel;
+				if(selectedPiece == null){
+					if(!pLabel.isSelected()){
+						pLabel.setStyle("-fx-border-color: orange;");
+						pLabel.select(true);
+						selectedPiece = pLabel;
+					}
 				}else{
-					pLabel.setStyle("");
-					pLabel.select(false);
-					selectedPiece = null;
+					if(pLabel == selectedPiece){
+						pLabel.setStyle("");
+						pLabel.select(false);
+						selectedPiece = null;
+					}
 				}
 			}
 		});
@@ -136,7 +140,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 					return;
 				}else{
                     // update UI and Model
-					if(Referee.isValidMove(selectedPiece.getChessPiece(), pGrid)){
+					if(RuleBook.isValidMove(selectedPiece.getChessPiece(), pGrid)){
 						GameModel.getInstance().updateUI();
                         selectedPiece = null;
                     }

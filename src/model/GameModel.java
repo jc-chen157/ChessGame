@@ -5,7 +5,6 @@ import java.util.List;
 
 import resource.ChessBoard;
 import resource.ChessPiece;
-import ui.GridView;
 
 /**
  * The bridge between back-end and front-end of the chess game.
@@ -24,17 +23,15 @@ public class GameModel {
 		return INSTANCE;
 	}
 
-    public ChessBoard getChessBoard(){
-        return aChessBoard;
+	/**
+	 * Add chessPiece to the board. 
+	 * @param pChess
+	 * @param pX
+	 * @param pY
+	 */
+	public void addChessPiece(ChessPiece pChess, int pX, int pY){
+       aChessBoard.addPiece(pChess, pX, pY);
     }
-	
-    /**
-     * Reset the whole game. 
-     */
-	public void reset(){
-		aChessBoard.reset();
-		notifyObserver();
-	}
 	
 	/**
 	 * Return the ChessPiece for the specific Index
@@ -45,6 +42,23 @@ public class GameModel {
 	public ChessPiece getChessPiece(int pX, int pY){
 		return aChessBoard.getPiece(pX, pY);
 	}
+	
+	/**
+	 * Remove ChessPiece on the board.
+	 * @param pX
+	 * @param pY
+	 */
+	public void removeChessPiece(int pX, int pY){
+		aChessBoard.removePiece(pX, pY);
+	}
+    /**
+     * Reset the whole game. 
+     */
+	public void reset(){
+		aChessBoard.reset();
+		notifyObserver();
+	}
+	
 	
 	/**
 	 * Add observer
@@ -84,5 +98,4 @@ public class GameModel {
 			observer.updateView();
 		}
 	}
-	
 }
