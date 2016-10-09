@@ -1,6 +1,6 @@
-package game.UI;
+package ui.gameBoard;
 
-import game.Resource.ChessPiece;
+import backend.chess.ChessPiece;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 

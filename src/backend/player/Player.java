@@ -1,4 +1,4 @@
-package user.Resource;
+package backend.player;
 
 public class Player {
 	private String aName;

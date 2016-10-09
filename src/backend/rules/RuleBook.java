@@ -1,9 +1,10 @@
-package game.Model;
+package backend.rules;
 
-import game.Resource.ChessPiece;
-import game.Resource.Color;
-import game.Resource.PieceType;
-import game.UI.GridView;
+import app.middleware.GameModel;
+import backend.chess.ChessPiece;
+import backend.chess.Color;
+import backend.chess.PieceType;
+import ui.gameBoard.GridView;
 
 /**
  * A static Class that verify if a move is legal.

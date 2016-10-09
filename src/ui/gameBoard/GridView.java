@@ -1,6 +1,6 @@
-package game.UI;
+package ui.gameBoard;
 
-import game.Resource.Color;
+import backend.chess.Color;
 import javafx.scene.layout.HBox;
 
 public class GridView extends HBox{
