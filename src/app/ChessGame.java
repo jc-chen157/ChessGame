@@ -5,10 +5,10 @@ import javafx.application.*;
 
 import javafx.scene.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.stage.*;
 import ui.gameBoard.ChessBoardView;
+import ui.menuBar.ChessGameMenuBar;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
 
@@ -43,15 +43,7 @@ public class ChessGame extends Application{
         model.reset();
         
         // add the game menu
-        MenuBar menuBar = new MenuBar();
-        // --- Menu File
-        Menu menuFile = new Menu("File");
-        // --- Menu Edit
-        Menu menuEdit = new Menu("Edit");
-        // --- Menu View
-        Menu menuView = new Menu("View");
- 
-        menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
+        MenuBar menuBar = new ChessGameMenuBar();
         appplicationPane.setTop(menuBar);
         
         // assemble different UI parts.
