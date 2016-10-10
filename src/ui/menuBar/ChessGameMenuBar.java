@@ -25,8 +25,6 @@ public class ChessGameMenuBar extends MenuBar{
 		addAboutMenu();
 		this.setVisible(true);
 	}
-	
-	
 
 	/**
 	 * Create Game Menu
@@ -36,7 +34,6 @@ public class ChessGameMenuBar extends MenuBar{
 		
 		// New Game Menu Item
 		MenuItem newGame = new MenuItem("New Game");
-//		newGame.setAccelerator(KeyCombination.keyCombination("Command+N"));
 		newGame.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent t){
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -113,7 +110,6 @@ public class ChessGameMenuBar extends MenuBar{
 	 * Create Player Menu
 	 */
 	private void addPlayerMenu() {
-//		Menu playerMenu = new Menu("Player");
 		
 	}
 	
