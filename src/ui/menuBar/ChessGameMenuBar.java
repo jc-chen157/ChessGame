@@ -21,10 +21,13 @@ public class ChessGameMenuBar extends MenuBar{
 		super();
 		addGameMenu();
 		addActionMenu();
+		addPlayerMenu();
 		addAboutMenu();
 		this.setVisible(true);
 	}
 	
+	
+
 	/**
 	 * Create Game Menu
 	 */
@@ -104,6 +107,14 @@ public class ChessGameMenuBar extends MenuBar{
 		
 		actionMenu.getItems().addAll(undo, redo);
 		this.getMenus().add(actionMenu);
+	}
+	
+	/**
+	 * Create Player Menu
+	 */
+	private void addPlayerMenu() {
+//		Menu playerMenu = new Menu("Player");
+		
 	}
 	
 	/**

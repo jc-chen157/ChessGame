@@ -1,6 +1,7 @@
 package app;
 
 import app.middleware.GameModel;
+import backend.player.Player;
 import javafx.application.*;
 
 import javafx.scene.*;
@@ -9,6 +10,7 @@ import javafx.scene.control.MenuBar;
 import javafx.stage.*;
 import ui.gameBoard.ChessBoardView;
 import ui.menuBar.ChessGameMenuBar;
+import ui.player.PlayerInfoPanel;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
 
@@ -47,12 +49,14 @@ public class ChessGame extends Application{
         appplicationPane.setTop(menuBar);
         
         // assemble different UI parts.
-        gameBoard.add(new Label("aaa"), 0, 1);
+        Player testPlayer = new Player("Jiajun Chen");
+        PlayerInfoPanel playerInfo = new PlayerInfoPanel(testPlayer);
+        gameBoard.add(playerInfo, 0, 1);
         gameBoard.add(chessBoard, 1, 1);
         gameBoard.add(new Label("bbb"), 2, 1);
         
         // launch.
-		Scene mainBoard = new Scene(appplicationPane, 800, 800);
+		Scene mainBoard = new Scene(appplicationPane, 800, 600);
 		primaryStage.setScene(mainBoard);
 		primaryStage.setResizable(false);
 		primaryStage.show();
