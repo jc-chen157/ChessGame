@@ -3,13 +3,12 @@ package app;
 import app.middleware.GameModel;
 import backend.player.Player;
 import javafx.application.*;
-
 import javafx.scene.*;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.stage.*;
 import ui.gameBoard.ChessBoardView;
 import ui.menuBar.ChessGameMenuBar;
+import ui.player.PlayerDisplay;
 import ui.player.PlayerInfoPanel;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
@@ -20,6 +19,8 @@ import javafx.geometry.*;
 public class ChessGame extends Application{
 	
 	private static final int MARGIN_OUTER = 10;
+	private static final int APP_WIDTH = 800;
+	private static final int APP_HEIGHT = 600;
 	
 	public static void main(String[] args){
 		launch(args);
@@ -48,17 +49,25 @@ public class ChessGame extends Application{
         MenuBar menuBar = new ChessGameMenuBar();
         appplicationPane.setTop(menuBar);
         
-        // assemble different UI parts.
-        Player testPlayer = new Player("Jiajun Chen");
-        PlayerInfoPanel playerInfo = new PlayerInfoPanel(testPlayer);
-        gameBoard.add(playerInfo, 0, 1);
-        gameBoard.add(chessBoard, 1, 1);
-        gameBoard.add(new Label("bbb"), 2, 1);
+        // assemble Player Info UI parts.
+        gameBoard.add(chessBoard, 0, 0);
+        addPlayerUIComponent(appplicationPane);
         
         // launch.
-		Scene mainBoard = new Scene(appplicationPane, 800, 600);
+		Scene mainBoard = new Scene(appplicationPane, APP_WIDTH, APP_HEIGHT);
 		primaryStage.setScene(mainBoard);
 		primaryStage.setResizable(false);
 		primaryStage.show();
+	}
+	
+	
+	private void addPlayerUIComponent(BorderPane pBoard){
+		PlayerDisplay playerDisplay = new PlayerDisplay();
+        Player testPlayer = new Player("Jiajun Chen");
+        PlayerInfoPanel playerInfo = new PlayerInfoPanel(testPlayer);
+        Player testPlayer2 = new Player("Wenrong Chen");
+        PlayerInfoPanel playerInfo2 = new PlayerInfoPanel(testPlayer2);
+        playerDisplay.getChildren().addAll(playerInfo, playerInfo2);
+        pBoard.setLeft(playerDisplay);
 	}
 }
