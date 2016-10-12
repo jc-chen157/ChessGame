@@ -13,6 +13,6 @@ public class PlayerAndTimerDisplay extends VBox{
 		super();
 		this.setWidth(0);
 		this.setHeight(600);
-		this.setSpacing(330);
+		this.setSpacing(100);
 	}
 }

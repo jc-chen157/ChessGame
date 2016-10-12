@@ -3,6 +3,7 @@ package app;
 import java.io.File;
 
 import app.middleware.GameModel;
+import app.middleware.TimerModel;
 import backend.player.Player;
 import javafx.application.*;
 import javafx.scene.*;
@@ -12,6 +13,7 @@ import ui.gameBoard.ChessBoardView;
 import ui.menuBar.ChessGameMenuBar;
 import ui.player.PlayerAndTimerDisplay;
 import ui.player.PlayerInfoPanel;
+import ui.player.TimerView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -55,13 +57,14 @@ public class ChessGame extends Application{
         
         // assemble Player Info UI parts.
         gameBoard.add(chessBoard, 0, 0);
-        addPlayerUIComponent(appplicationPane);
+        addPlayerAndTimerComponent(appplicationPane);
         
         // add music
         Media media = new Media(new File("src/sound/bgm.mp3").toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.setCycleCount(MediaPlayer.INDEFINITE);
-        player.play();
+//        player.play();
+        
         // launch.
 		Scene mainBoard = new Scene(appplicationPane, APP_WIDTH, APP_HEIGHT);
 		primaryStage.setScene(mainBoard);
@@ -70,13 +73,16 @@ public class ChessGame extends Application{
 	}
 	
 	
-	private void addPlayerUIComponent(BorderPane pBoard){
+	private void addPlayerAndTimerComponent(BorderPane pBoard){
 		PlayerAndTimerDisplay playerDisplay = new PlayerAndTimerDisplay();
         Player testPlayer = new Player("Jiajun Chen");
         PlayerInfoPanel playerInfo = new PlayerInfoPanel(testPlayer);
+        TimerView timerView = new TimerView();
+        TimerModel timerModel = TimerModel.getInstance();
+        timerModel.addObserver(timerView);
         Player testPlayer2 = new Player("Wenrong Chen");
         PlayerInfoPanel playerInfo2 = new PlayerInfoPanel(testPlayer2);
-        playerDisplay.getChildren().addAll(playerInfo, playerInfo2);
+        playerDisplay.getChildren().addAll(playerInfo, timerView, playerInfo2);
         pBoard.setLeft(playerDisplay);
 	}
 }
