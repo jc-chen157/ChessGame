@@ -1,5 +1,6 @@
 package ui.gameBoard;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.AudioClip;
 
 /**
  * Main UI Class, aggregate the Piece Label and Grid View. 
@@ -24,9 +26,11 @@ import javafx.scene.layout.GridPane;
  */
 public class ChessBoardView extends GridPane implements UIObserver{
 	
-	private PieceLabel selectedPiece = null;
-	private List<GridView> chessBoard = new ArrayList<>();
-	
+	private PieceLabel aSelectedPiece = null;
+	private List<GridView> aChessBoard = new ArrayList<>();
+	private AudioClip aClickSound = new AudioClip(Paths.get("src/sound/click.mp3")
+			.toUri().toString());
+
 	/**
 	 * The constructor sets the board view. 
 	 */
@@ -40,7 +44,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 					grid.setStyle("-fx-background-color: azure;");
 					grid.setAlignment(Pos.CENTER);
 					grid.setVisible(true);
-					chessBoard.add(grid);
+					aChessBoard.add(grid);
 					addSelectionListenerToGrid(grid);
 					this.add(grid,i,j);
 				}else{
@@ -49,7 +53,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 					grid.setStyle("-fx-background-color: grey;");
 					grid.setAlignment(Pos.CENTER);
 					grid.setVisible(true);
-					chessBoard.add(grid);
+					aChessBoard.add(grid);
 					addSelectionListenerToGrid(grid);
 					this.add(grid, i, j);
 				}
@@ -97,7 +101,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	 */
 	@Override
 	public void updateView() {
-		for(GridView grid: chessBoard){
+		for(GridView grid: aChessBoard){
 			grid.getChildren().clear();
 		}
 		initializeView();
@@ -111,17 +115,18 @@ public class ChessBoardView extends GridPane implements UIObserver{
 		pLabel.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
-				if(selectedPiece == null){
+				aClickSound.play();
+				if(aSelectedPiece == null){
 					if(!pLabel.isSelected()){
 						pLabel.setStyle("-fx-border-color: orange;");
 						pLabel.select(true);
-						selectedPiece = pLabel;
+						aSelectedPiece = pLabel;
 					}
 				}else{
-					if(pLabel == selectedPiece){
+					if(pLabel == aSelectedPiece){
 						pLabel.setStyle("");
 						pLabel.select(false);
-						selectedPiece = null;
+						aSelectedPiece = null;
 					}
 				}
 			}
@@ -136,15 +141,17 @@ public class ChessBoardView extends GridPane implements UIObserver{
 		pGrid.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
+                aClickSound.play();
 				// if no ChessPiece is selected, nothing happens.
-				if(selectedPiece == null){
+				if(aSelectedPiece == null){
 					return;
 				}else{
                     // update UI and Model
-					if(RuleBook.isValidMove(selectedPiece.getChessPiece(), pGrid)){
+					if(RuleBook.isValidMove(aSelectedPiece.getChessPiece(), pGrid)){
 						GameModel.getInstance().updateUI();
-                        selectedPiece = null;
+                        aSelectedPiece = null;
                     }
+                    
 				}
 			}
 		});

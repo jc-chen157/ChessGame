@@ -1,5 +1,7 @@
 package app;
 
+import java.io.File;
+
 import app.middleware.GameModel;
 import backend.player.Player;
 import javafx.application.*;
@@ -8,9 +10,11 @@ import javafx.scene.control.MenuBar;
 import javafx.stage.*;
 import ui.gameBoard.ChessBoardView;
 import ui.menuBar.ChessGameMenuBar;
-import ui.player.PlayerDisplay;
+import ui.player.PlayerAndTimerDisplay;
 import ui.player.PlayerInfoPanel;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.geometry.*;
 
 /**
@@ -53,6 +57,11 @@ public class ChessGame extends Application{
         gameBoard.add(chessBoard, 0, 0);
         addPlayerUIComponent(appplicationPane);
         
+        // add music
+        Media media = new Media(new File("src/sound/bgm.mp3").toURI().toString());
+        MediaPlayer player = new MediaPlayer(media);
+        player.setCycleCount(MediaPlayer.INDEFINITE);
+        player.play();
         // launch.
 		Scene mainBoard = new Scene(appplicationPane, APP_WIDTH, APP_HEIGHT);
 		primaryStage.setScene(mainBoard);
@@ -62,7 +71,7 @@ public class ChessGame extends Application{
 	
 	
 	private void addPlayerUIComponent(BorderPane pBoard){
-		PlayerDisplay playerDisplay = new PlayerDisplay();
+		PlayerAndTimerDisplay playerDisplay = new PlayerAndTimerDisplay();
         Player testPlayer = new Player("Jiajun Chen");
         PlayerInfoPanel playerInfo = new PlayerInfoPanel(testPlayer);
         Player testPlayer2 = new Player("Wenrong Chen");

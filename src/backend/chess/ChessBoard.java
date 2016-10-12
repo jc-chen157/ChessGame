@@ -8,7 +8,7 @@ package backend.chess;
 public class ChessBoard {
 
     // board itself
-    public static final ChessBoard INSTANCE = new ChessBoard();
+    private static final ChessBoard INSTANCE = new ChessBoard();
     private ChessPiece[][] aBoard = new ChessPiece[8][8];
 
     /**
