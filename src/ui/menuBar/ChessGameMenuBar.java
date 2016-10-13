@@ -40,7 +40,7 @@ public class ChessGameMenuBar extends MenuBar{
 				alert.setTitle("New Game");
 				alert.setContentText("Are you sure you want to start a new Game?");
 				Optional<ButtonType> result = alert.showAndWait();
-				if(result.get() == ButtonType.YES){
+				if(result.get() == ButtonType.OK){
 					GameModel.getInstance().reset();
 				}else{
 					// this is left as empty intentionally
