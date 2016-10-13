@@ -1,4 +1,4 @@
-package ui.player;
+package ui.player_timer;
 
 
 import backend.player.Player;

@@ -52,7 +52,6 @@ public final class PlayerTimer extends Thread {
 			}
 			aSecond--;
 			pause(1000);
-			System.out.println(this.toString());
 		}
 		isFinished = true;
 	}
@@ -64,6 +63,9 @@ public final class PlayerTimer extends Thread {
 	private void pause(long sleeptime) {
 	    try{
 	    	Thread.yield();
+	    	/*
+	    	 * TODO: Find a better solution to update the UI.
+	    	 */
 	    	TimerModel.getInstance().updateUI();
 	        Thread.sleep(sleeptime);
 	    }catch (InterruptedException ex){

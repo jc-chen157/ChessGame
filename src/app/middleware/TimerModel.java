@@ -56,17 +56,5 @@ public class TimerModel {
 		for(UIObserver observer: aObserverList){
 			observer.updateView();
 		}
-	}
-	
-//	public int getBlackTimerMinutes(){
-//		return aBlackTimer.getMinute();
-//	}
-//	
-//	public int getWhiteTimerMinutes(){
-//		return aWhiteTimer.getMinute();
-//	}
-	
-	
-	
-	
+	}	
 }
