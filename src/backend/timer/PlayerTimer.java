@@ -59,7 +59,7 @@ public final class PlayerTimer extends Thread {
 	public boolean isFinished(){
 		return isFinished;
 	}
-	
+
 	private void pause(long sleeptime) {
 	    try{
 	    	Thread.yield();

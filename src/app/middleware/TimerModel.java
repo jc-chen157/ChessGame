@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import backend.timer.PlayerTimer;
+import backend.chess.Color;
 
 public class TimerModel {
 	
@@ -39,8 +40,15 @@ public class TimerModel {
 		notifyObserver();
 	}
 	
-	public void pauseTimer(){
-		
+	public void pauseTimer(Color pColor){
+		if(pColor == Color.BLACK){
+			aBlackTimer.stop();
+			aWhiteTimer.start();
+			
+		}else{
+			aWhiteTimer.stop();
+			aBlackTimer.start();
+		}
 	}
 	
 	
