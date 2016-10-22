@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import backend.chess.ChessBoard;
 import backend.chess.ChessPiece;
+import backend.chess.Color;
 import backend.recording.MoveCommand;
 
 /**
@@ -68,6 +69,10 @@ public class GameModel {
 	
 	public String getLastMove(){
 		return aMoveStack.peek().toString();
+	}
+	
+	public Color getLastTurn(){
+		return aMoveStack.peek().getColor();
 	}
 	
     /**

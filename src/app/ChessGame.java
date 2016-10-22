@@ -14,6 +14,7 @@ import ui.menuBar.ChessGameMenuBar;
 import ui.player_timer.PlayerAndTimerDisplay;
 import ui.player_timer.PlayerInfoPanel;
 import ui.player_timer.TimerView;
+import ui.recording.RecordingPanel;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -25,7 +26,7 @@ import javafx.geometry.*;
 public class ChessGame extends Application{
 	
 	private static final int MARGIN_OUTER = 10;
-	private static final int APP_WIDTH = 800;
+	private static final int APP_WIDTH = 1000;
 	private static final int APP_HEIGHT = 600;
 	
 	public static void main(String[] args){
@@ -59,11 +60,16 @@ public class ChessGame extends Application{
         gameBoard.add(chessBoard, 0, 0);
         addPlayerAndTimerComponent(appplicationPane);
         
+        // add recording pane
+        RecordingPanel recordingPanel = new RecordingPanel();
+        model.addObserver(recordingPanel);
+        appplicationPane.setRight(recordingPanel);
+        
         // add music
         Media media = new Media(new File("src/sound/bgm.mp3").toURI().toString());
         MediaPlayer player = new MediaPlayer(media);
         player.setCycleCount(MediaPlayer.INDEFINITE);
-//        player.play();
+        player.play();
         
         // launch.
 		Scene mainBoard = new Scene(appplicationPane, APP_WIDTH, APP_HEIGHT);

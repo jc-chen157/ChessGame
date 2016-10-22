@@ -152,7 +152,6 @@ public class ChessBoardView extends GridPane implements UIObserver{
 				}else{
                     // update UI and Model
 					if(RuleBook.isValidMove(aSelectedPiece.getChessPiece(), pGrid)){
-						GameModel.getInstance().updateUI();
 //						TimerModel.getInstance().pauseTimer(aSelectedPiece.getChessPiece().getColor());
                         aSelectedPiece = null;
                     }
