@@ -4,6 +4,7 @@ import app.middleware.GameModel;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.chess.PieceType;
+import backend.recording.MoveCommand;
 import ui.gameBoard.GridView;
 
 /**
@@ -37,19 +38,10 @@ public class RuleBook {
     		default: isValid = false;
     			break;
     	}
+    	// TODO: add the move command here 
     	if(isValid){
-   			GameModel.getInstance().removeChessPiece(pPiece.getX(), pPiece.getY());
-       		GameModel.getInstance().addChessPiece(pPiece, pGrid.getX(), pGrid.getY());
-       		pPiece.setPosition(pGrid.getX(), pGrid.getY());	
-       		pPiece.moved();
-       		if(pPiece.getType() == PieceType.PAWN && 
-       				(pGrid.getX() == 0 || pGrid.getX() == 7)){
-       			GameModel.getInstance().removeChessPiece(pPiece.getX(), pPiece.getY());
-           		GameModel.getInstance().addChessPiece(
-           				new ChessPiece(pPiece.getColor(), PieceType.QUEEN), pGrid.getX(), pGrid.getY());
-           		GameModel.getInstance().getChessPiece(pGrid.getX(), pGrid.getY()).
-           		setPosition(pGrid.getX(), pGrid.getY());
-       		}
+   			MoveCommand command = new MoveCommand(pPiece, pGrid.getX(), pGrid.getY());
+   			GameModel.getInstance().executeMove(command);
     	}
     	return isValid;
     }
@@ -99,6 +91,7 @@ public class RuleBook {
      * Verify if a Rook Move is Legal.
      */
     private static boolean isValidRookMove(ChessPiece pPiece, GridView pGrid){
+
     	if(pPiece.getColor() == Color.BLACK){
     		// pre-condition check.
     		ChessPiece atGridPiece = GameModel.getInstance().getChessPiece(pGrid.getX(), pGrid.getY());
@@ -106,8 +99,8 @@ public class RuleBook {
     			return false;
     		}
     		if(pPiece.getY() == pGrid.getY() && pPiece.getX() != pGrid.getX()){
-    			int beg = pPiece.getX() > pGrid.getX() ? pPiece.getX() : pGrid.getX();
-    			int end =  pPiece.getX() > pGrid.getX() ? pGrid.getX() : pPiece.getX();
+    			int beg =  pPiece.getX() > pGrid.getX() ? pGrid.getX() : pPiece.getX();
+    			int end = pPiece.getX() > pGrid.getX() ? pPiece.getX() : pGrid.getX();
     			for(int i = beg + 1; i < end; i++){
     				if(GameModel.getInstance().getChessPiece(i, pPiece.getY()) != null){
     					return false;
@@ -115,10 +108,10 @@ public class RuleBook {
     			}
     			return true;
     		}else if(pPiece.getX() == pGrid.getX() && pPiece.getY() != pGrid.getY()){
-    			int beg = pPiece.getY() > pGrid.getY() ? pPiece.getY() : pGrid.getY();
-    			int end =  pPiece.getY() > pGrid.getY() ? pGrid.getY() : pPiece.getY();
+    			int beg =  pPiece.getY() > pGrid.getY() ? pGrid.getY() : pPiece.getY();
+    			int end = pPiece.getY() > pGrid.getY() ? pPiece.getY() : pGrid.getY();
     			for(int i = beg + 1; i < end; i++){
-    				if(GameModel.getInstance().getChessPiece(i, pPiece.getY()) != null){
+    				if(GameModel.getInstance().getChessPiece(pPiece.getX(), i) != null){
     					return false;
     				}
     			}
@@ -130,20 +123,20 @@ public class RuleBook {
         		return false;
         	}
         	if(pPiece.getY() == pGrid.getY() && pPiece.getX() != pGrid.getX()){
-    			int beg = pPiece.getX() > pGrid.getX() ? pPiece.getX() : pGrid.getX();
-    			int end =  pPiece.getX() > pGrid.getX() ? pGrid.getX() : pPiece.getX();
+    			int beg = pPiece.getX() > pGrid.getX() ? pGrid.getX() : pPiece.getX();
+    			int end = pPiece.getX() > pGrid.getX() ? pPiece.getX() : pGrid.getX();
     			for(int i = beg + 1; i < end; i++){
     				if(GameModel.getInstance().getChessPiece(i, pPiece.getY()) != null){
-    					System.out.println("failed");
     					return false;
     				}
     			}
     			return true;
     		}else if(pPiece.getX() == pGrid.getX() && pPiece.getY() != pGrid.getY()){
-    			int beg = pPiece.getY() > pGrid.getY() ? pPiece.getY() : pGrid.getY();
-    			int end =  pPiece.getY() > pGrid.getY() ? pGrid.getY() : pPiece.getY();
+    			int beg =  pPiece.getY() > pGrid.getY() ? pGrid.getY() : pPiece.getY();
+    			int end = pPiece.getY() > pGrid.getY() ? pPiece.getY() : pGrid.getY();
+    			
     			for(int i = beg + 1; i < end; i++){
-    				if(GameModel.getInstance().getChessPiece(i, pPiece.getY()) != null){
+    				if(GameModel.getInstance().getChessPiece(pPiece.getX(), i) != null){
     					return false;
     				}
     			}
@@ -199,21 +192,42 @@ public class RuleBook {
     		if(atGridPiece != null && atGridPiece.getColor() == Color.BLACK){
     			return false;
     		}
-    		int begX = pPiece.getX() > pGrid.getX() ? pPiece.getX() : pGrid.getX();
-			int begY = pPiece.getY() > pGrid.getY() ? pPiece.getY() : pGrid.getY();
-			int endX = pPiece.getX() > pGrid.getX() ? pGrid.getX() : pPiece.getX();
-			int endY = pPiece.getY() > pGrid.getY() ? pGrid.getY() : pPiece.getY();
+    		int pieceX =  pPiece.getX();
+    		int pieceY = pPiece.getY();
+    		int gridX =  pGrid.getX();
+    		int gridY = pGrid.getY();
     		
-    		for(int i = begX + 1; i < endX; i++){
-    			if(begY < endY){
-    				begY++;
-    				if(GameModel.getInstance().getChessPiece(i, begY) != null){
-    					return false;
+    		if(pieceX > gridX){
+    			if(pieceY < gridY){
+    				for(int i = pieceX - 1; i > gridX; i--){
+    					pieceY++;
+    					if(GameModel.getInstance().getChessPiece(i, pieceY) != null){
+        					return false;
+        				}
     				}
     			}else{
-    				begY--;
-    				if(GameModel.getInstance().getChessPiece(i, begY) != null){
-    					return false;
+    				for(int i = pieceX - 1; i > gridX; i--){
+    					pieceY--;
+    					if(GameModel.getInstance().getChessPiece(i, pieceY) != null){
+        					return false;
+        				}
+    				}
+    			}
+    		}
+    		if(pieceX < gridX){
+    			if(pieceY < gridY){
+    				for(int i = pieceX + 1; i < gridX; i++){
+    					pieceY++;
+    					if(GameModel.getInstance().getChessPiece(i, pieceY) != null){
+        					return false;
+        				}
+    				}
+    			}else{
+    				for(int i = pieceX + 1; i < gridX; i++){
+    					pieceY--;
+    					if(GameModel.getInstance().getChessPiece(i, pieceY) != null){
+        					return false;
+        				}
     				}
     			}
     		}
@@ -223,21 +237,42 @@ public class RuleBook {
     		if(atGridPiece != null && atGridPiece.getColor() == Color.WHITE){
     			return false;
     		}
-    		int begX = pPiece.getX() > pGrid.getX() ? pPiece.getX() : pGrid.getX();
-			int begY = pPiece.getY() > pGrid.getY() ? pPiece.getY() : pGrid.getY();
-			int endX =  pPiece.getX() > pGrid.getX() ? pGrid.getX() : pPiece.getX();
-			int endY =  pPiece.getY() > pGrid.getY() ? pGrid.getY() : pPiece.getY();
+    		int pieceX =  pPiece.getX();
+    		int pieceY = pPiece.getY();
+    		int gridX =  pGrid.getX();
+    		int gridY = pGrid.getY();
     		
-    		for(int i = begX + 1; i < endX; i++){
-    			if(begY < endY){
-    				begY++;
-    				if(GameModel.getInstance().getChessPiece(i, begY) != null){
-    					return false;
+    		if(pieceX > gridX){
+    			if(pieceY < gridY){
+    				for(int i = pieceX - 1; i > gridX; i--){
+    					pieceY++;
+    					if(GameModel.getInstance().getChessPiece(i, pieceY) != null){
+        					return false;
+        				}
     				}
     			}else{
-    				begY--;
-    				if(GameModel.getInstance().getChessPiece(i, begY) != null){
-    					return false;
+    				for(int i = pieceX - 1; i > gridX; i--){
+    					pieceY--;
+    					if(GameModel.getInstance().getChessPiece(i, pieceY) != null){
+        					return false;
+        				}
+    				}
+    			}
+    		}
+    		if(pieceX < gridX){
+    			if(pieceY < gridY){
+    				for(int i = pieceX + 1; i < gridX; i++){
+    					pieceY++;
+    					if(GameModel.getInstance().getChessPiece(i, pieceY) != null){
+        					return false;
+        				}
+    				}
+    			}else{
+    				for(int i = pieceX + 1; i < gridX; i++){
+    					pieceY--;
+    					if(GameModel.getInstance().getChessPiece(i, pieceY) != null){
+        					return false;
+        				}
     				}
     			}
     		}

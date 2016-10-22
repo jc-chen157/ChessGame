@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.middleware.GameModel;
-import app.middleware.TimerModel;
 import app.middleware.UIObserver;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
@@ -143,14 +142,18 @@ public class ChessBoardView extends GridPane implements UIObserver{
 			@Override
 			public void handle(MouseEvent event) {
                 aClickSound.play();
+                if(aSelectedPiece == null){
+					return;
+                }
 				// if no ChessPiece is selected, nothing happens.
-				if(aSelectedPiece == null){
+				if(aSelectedPiece.getChessPiece().getX() == pGrid.getX() &&
+						aSelectedPiece.getChessPiece().getY() == pGrid.getY()){
 					return;
 				}else{
                     // update UI and Model
 					if(RuleBook.isValidMove(aSelectedPiece.getChessPiece(), pGrid)){
 						GameModel.getInstance().updateUI();
-						TimerModel.getInstance().pauseTimer(aSelectedPiece.getChessPiece().getColor());
+//						TimerModel.getInstance().pauseTimer(aSelectedPiece.getChessPiece().getColor());
                         aSelectedPiece = null;
                     }
                     

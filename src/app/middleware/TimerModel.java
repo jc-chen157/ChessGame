@@ -2,9 +2,7 @@ package app.middleware;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import backend.timer.PlayerTimer;
-import backend.chess.Color;
 
 public class TimerModel {
 	
@@ -27,8 +25,6 @@ public class TimerModel {
 		return aWhiteTimer.toString();
 	}
 	
-	
-	
 	public void setTime(int pMinues, int pSeconds){
 		aWhiteTimer.setTimer(pMinues, pSeconds);
 		aBlackTimer.setTimer(pMinues, pSeconds);
@@ -40,16 +36,21 @@ public class TimerModel {
 		notifyObserver();
 	}
 	
-	public void pauseTimer(Color pColor){
-		if(pColor == Color.BLACK){
-			aBlackTimer.stop();
-			aWhiteTimer.start();
-			
-		}else{
-			aWhiteTimer.stop();
-			aBlackTimer.start();
-		}
-	}
+	/**
+	 * TODO: Add pausing timer method
+	 * 
+	 * @param pColor
+	 */
+//	public void pauseTimer(Color pColor){
+//		if(pColor == Color.BLACK){
+//			aBlackTimer.stop();
+//			aWhiteTimer.start();
+//			
+//		}else{
+//			aWhiteTimer.stop();
+//			aBlackTimer.start();
+//		}
+//	}
 	
 	
 	public void addObserver(UIObserver pObserver){

@@ -2,9 +2,11 @@ package app.middleware;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import backend.chess.ChessBoard;
 import backend.chess.ChessPiece;
+import backend.recording.MoveCommand;
 
 /**
  * The bridge between back-end and front-end of the chess game.
@@ -16,7 +18,7 @@ public class GameModel {
 	private static final GameModel INSTANCE = new GameModel();
 	private final List<UIObserver> aObserverList = new ArrayList<>();
 	private ChessBoard aChessBoard = ChessBoard.getInstance();
-	
+	private Stack<MoveCommand> aMoveStack = new Stack<>();
 	private GameModel(){}
 	
 	public static GameModel getInstance(){
@@ -51,6 +53,22 @@ public class GameModel {
 	public void removeChessPiece(int pX, int pY){
 		aChessBoard.removePiece(pX, pY);
 	}
+	
+	public void executeMove(MoveCommand pCommand){
+		aMoveStack.push(pCommand);
+		pCommand.execute();
+		notifyObserver();
+	}
+	
+	public void undoMove(){
+		aMoveStack.pop().undo();
+		notifyObserver();
+	}
+	
+	public String getLastMove(){
+		return aMoveStack.peek().toString();
+	}
+	
     /**
      * Reset the whole game. 
      */
@@ -58,7 +76,6 @@ public class GameModel {
 		aChessBoard.reset();
 		notifyObserver();
 	}
-	
 	
 	/**
 	 * Add observer
@@ -98,4 +115,5 @@ public class GameModel {
 			observer.updateView();
 		}
 	}
+
 }
