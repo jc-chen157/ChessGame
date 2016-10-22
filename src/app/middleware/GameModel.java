@@ -58,7 +58,6 @@ public class GameModel {
 	public void executeMove(MoveCommand pCommand){
 		aMoveStack.push(pCommand);
 		pCommand.execute();
-		System.out.println(pCommand.toString());
 		notifyObserver();
 	}
 	
@@ -68,10 +67,12 @@ public class GameModel {
 	}
 	
 	public String getLastMove(){
+		if(aMoveStack.isEmpty()) return null;
 		return aMoveStack.peek().toString();
 	}
 	
 	public Color getLastTurn(){
+		if(aMoveStack.isEmpty()) return Color.BLACK;
 		return aMoveStack.peek().getColor();
 	}
 	
@@ -80,6 +81,7 @@ public class GameModel {
      */
 	public void reset(){
 		aChessBoard.reset();
+		aMoveStack.clear();
 		notifyObserver();
 	}
 	

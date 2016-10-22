@@ -27,6 +27,10 @@ public class RecordingPanel extends HBox implements UIObserver{
 	
 	@Override
 	public void updateView() {
+		if(GameModel.getInstance().getLastMove() == null){
+			aWhiteMove.getChildren().clear();
+			aBlackMove.getChildren().clear();
+		}
 		if(GameModel.getInstance().getLastTurn() == Color.WHITE){
 			Label moveLabel = new Label(GameModel.getInstance().getLastMove());
 			moveLabel.setPrefWidth(80);

@@ -117,7 +117,8 @@ public class ChessBoardView extends GridPane implements UIObserver{
 			public void handle(MouseEvent event) {
 				aClickSound.play();
 				if(aSelectedPiece == null){
-					if(!pLabel.isSelected()){
+					if(!pLabel.isSelected() && 
+							pLabel.getChessPiece().getColor() != GameModel.getInstance().getLastTurn() ){
 						pLabel.setStyle("-fx-border-color: orange;");
 						pLabel.select(true);
 						aSelectedPiece = pLabel;

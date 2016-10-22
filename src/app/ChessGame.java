@@ -23,6 +23,7 @@ import javafx.geometry.*;
 /**
  * Main Class of the whole game. Start the Game.
  */
+@SuppressWarnings("unused")
 public class ChessGame extends Application{
 	
 	private static final int MARGIN_OUTER = 10;
@@ -84,8 +85,8 @@ public class ChessGame extends Application{
         Player testPlayer = new Player("Jiajun Chen");
         PlayerInfoPanel playerInfo = new PlayerInfoPanel(testPlayer);
         TimerView timerView = new TimerView();
-        TimerModel timerModel = TimerModel.getInstance();
-        timerModel.addObserver(timerView);
+//        TimerModel timerModel = TimerModel.getInstance();
+//        timerModel.addObserver(timerView);
         Player testPlayer2 = new Player("Wenrong Chen");
         PlayerInfoPanel playerInfo2 = new PlayerInfoPanel(testPlayer2);
         playerDisplay.getChildren().addAll(playerInfo, timerView, playerInfo2);
