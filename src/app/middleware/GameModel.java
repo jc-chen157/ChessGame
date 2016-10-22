@@ -57,6 +57,7 @@ public class GameModel {
 	public void executeMove(MoveCommand pCommand){
 		aMoveStack.push(pCommand);
 		pCommand.execute();
+		System.out.println(pCommand.toString());
 		notifyObserver();
 	}
 	
