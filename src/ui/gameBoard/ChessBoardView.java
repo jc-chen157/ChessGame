@@ -1,9 +1,9 @@
 package ui.gameBoard;
 
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.ChessGame;
 import app.middleware.GameModel;
 import app.middleware.UIObserver;
 import backend.chess.ChessPiece;
@@ -28,9 +28,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	
 	private PieceLabel aSelectedPiece = null;
 	private List<GridView> aChessBoard = new ArrayList<>();
-	private AudioClip aClickSound = new AudioClip(Paths.get("src/sound/click.mp3")
-			.toUri().toString());
-
+	private AudioClip aClickSound = new AudioClip(ChessGame.class.getClassLoader().getResource("click.mp3").toString());
 	/**
 	 * The constructor sets the board view. 
 	 */

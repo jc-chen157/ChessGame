@@ -67,7 +67,7 @@ public class ChessGame extends Application{
         appplicationPane.setRight(recordingPanel);
         
         // add music
-        Media media = new Media(new File("src/sound/bgm.mp3").toURI().toString());
+        Media media = new Media(ChessGame.class.getClassLoader().getResource("bgm.mp3").toString());
         MediaPlayer player = new MediaPlayer(media);
         player.setCycleCount(MediaPlayer.INDEFINITE);
         player.play();
