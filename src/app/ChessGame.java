@@ -5,12 +5,11 @@ import java.io.File;
 import backend.player.Player;
 import javafx.application.*;
 import javafx.scene.*;
-import javafx.scene.control.MenuBar;
 import javafx.stage.*;
 import middleware.engine.GameModel;
 import middleware.engine.TimerModel;
 import ui.ChessBoardPanel;
-import ui.ChessGameMenuBar;
+import ui.GameMenuBar;
 import ui.PlayerTimerPanel;
 import ui.PlayerInfoView;
 import ui.RecordingPanel;
@@ -54,7 +53,7 @@ public class ChessGame extends Application{
         model.reset();
         
         // add the game menu
-        MenuBar menuBar = new ChessGameMenuBar();
+        GameMenuBar menuBar = new GameMenuBar();
         appplicationPane.setTop(menuBar);
         
         // assemble Player Info UI parts.

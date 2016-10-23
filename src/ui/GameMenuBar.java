@@ -13,11 +13,11 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
-public class ChessGameMenuBar extends MenuBar{
+public class GameMenuBar extends MenuBar{
 	
 	private final String ABOUTINFO = "Version 1.0.1 \n" + "Developed by Jiajun Chen";
 	
-	public ChessGameMenuBar(){
+	public GameMenuBar(){
 		super();
 		addGameMenu();
 		addActionMenu();
@@ -60,6 +60,18 @@ public class ChessGameMenuBar extends MenuBar{
 			}
 		});
 		
+		MenuItem saveGame = new MenuItem("Save");
+		saveGame.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent t){
+				GameModel.getInstance().saveGame();
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Success");
+				alert.setHeaderText(null);
+				alert.setContentText("Your game has been saved ");
+				alert.showAndWait();
+			}
+		});
+		
 		// Exit Game Item
 		MenuItem exitGame = new MenuItem("Exit");
 		exitGame.setOnAction(new EventHandler<ActionEvent>(){
@@ -68,7 +80,7 @@ public class ChessGameMenuBar extends MenuBar{
 			}
 		});
 		
-		gameMenu.getItems().addAll(newGame, openGame, exitGame);
+		gameMenu.getItems().addAll(newGame, openGame, saveGame, exitGame);
 		this.getMenus().add(gameMenu);
 	}
 	

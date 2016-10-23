@@ -3,7 +3,6 @@ package middleware.engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
 import backend.chess.ChessBoard;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
@@ -84,6 +83,14 @@ public class GameModel {
 		aMoveStack.clear();
 		notifyObserver();
 	}
+	
+	public void saveGame() {
+		aChessBoard.saveGame();
+	}
+	
+//	public void loadGame(File pFile){
+//		
+//	}
 	
 	/**
 	 * Add observer

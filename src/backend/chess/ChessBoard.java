@@ -1,5 +1,9 @@
 package backend.chess;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.google.gson.Gson;
 
 /**
  * ChessBoard Class implemented with SingleTon Design Pattern.
@@ -82,5 +86,21 @@ public class ChessBoard {
     
     public void addPiece(ChessPiece pChess, int pX, int pY){
         aBoard[pX][pY] = pChess;
+    }
+    
+    public void saveGame() {
+    	Gson gson = new Gson();
+    	System.out.println(gson.toJson(aBoard));
+    	FileWriter writer;
+		try {
+			writer = new FileWriter("output.json");
+	    	writer.write(gson.toJson(aBoard));
+	    	writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
     }
 }

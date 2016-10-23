@@ -8,6 +8,9 @@ public class ChessPiece {
     private int aY;
     private boolean hasMoved;
 
+    public ChessPiece(){
+    	
+    }
 	public ChessPiece(Color pColor, PieceType pType){
 		aColor = pColor;
 		aType = pType;
