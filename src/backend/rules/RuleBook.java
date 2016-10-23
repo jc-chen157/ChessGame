@@ -5,7 +5,7 @@ import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.chess.PieceType;
 import backend.recording.MoveCommand;
-import ui.gameBoard.GridView;
+import ui.BoardSquareView;
 
 /**
  * A static Class that verify if a move is legal.
@@ -13,7 +13,7 @@ import ui.gameBoard.GridView;
  */
 public class RuleBook {
 	
-    public static boolean isValidMove(ChessPiece pPiece, GridView pGrid){
+    public static boolean isValidMove(ChessPiece pPiece, BoardSquareView pGrid){
     	boolean isValid = false;
     	switch(pPiece.getType()){
     		case PAWN:
@@ -49,7 +49,7 @@ public class RuleBook {
     /*
      * Verify if a pawn move is legal.
      */
-    private static boolean isValidPawnMove(ChessPiece pPiece, GridView pGrid){
+    private static boolean isValidPawnMove(ChessPiece pPiece, BoardSquareView pGrid){
     	if(pPiece.getColor() == Color.BLACK){
     		// empty grid move first
     		if(GameModel.getInstance().getChessPiece(pGrid.getX(), pGrid.getY()) == null){
@@ -90,7 +90,7 @@ public class RuleBook {
     /*
      * Verify if a Rook Move is Legal.
      */
-    private static boolean isValidRookMove(ChessPiece pPiece, GridView pGrid){
+    private static boolean isValidRookMove(ChessPiece pPiece, BoardSquareView pGrid){
 
     	if(pPiece.getColor() == Color.BLACK){
     		// pre-condition check.
@@ -149,7 +149,7 @@ public class RuleBook {
     /*
      * Verify if a Knight Move is Valid
      */
-    private static boolean isValidKnightMove(ChessPiece pPiece, GridView pGrid){
+    private static boolean isValidKnightMove(ChessPiece pPiece, BoardSquareView pGrid){
     	// pre-condition
     	if(pPiece.getX() == pGrid.getX() && pPiece.getY() == pGrid.getY()){
     		return false;
@@ -179,7 +179,7 @@ public class RuleBook {
     /*
      * Verify if a Bishop Move is Legal. 
      */
-    private static boolean isValidBishopMove(ChessPiece pPiece, GridView pGrid){
+    private static boolean isValidBishopMove(ChessPiece pPiece, BoardSquareView pGrid){
 		// pre-condition check.
     	if(pPiece.getX() == pGrid.getX() && pPiece.getY() == pGrid.getY()){
     		return false;
@@ -284,7 +284,7 @@ public class RuleBook {
      * Verify if a Queen Move is Legal.
      * A queen is just a combination of Rook and Bishop.
      */
-    private static boolean isValidQueenMove(ChessPiece pPiece, GridView pGrid){
+    private static boolean isValidQueenMove(ChessPiece pPiece, BoardSquareView pGrid){
     	return isValidRookMove(pPiece, pGrid) || isValidBishopMove(pPiece, pGrid);
     }
     
@@ -292,7 +292,7 @@ public class RuleBook {
      * Verify if a King Move is Legal.
      * A king is just like a queen, but it can only move to its nearby grid.
      */
-    private static boolean isValidKingMove(ChessPiece pPiece, GridView pGrid){
+    private static boolean isValidKingMove(ChessPiece pPiece, BoardSquareView pGrid){
     	System.out.println("activated");
     	return 	(Math.abs(pPiece.getX() - pGrid.getX()) == 1 ||
     			Math.abs(pPiece.getX() - pGrid.getX()) == 0) && 
@@ -304,7 +304,7 @@ public class RuleBook {
     /*
      * TODO: Verify if a Castle Move is Legal.
      */
-	private static boolean isCastleValid(ChessPiece pPiece, GridView pGrid){
+	private static boolean isCastleValid(ChessPiece pPiece, BoardSquareView pGrid){
 		// white long castle.
 		if(pGrid.getX() == 7 && pGrid.getY() == 2 &&
 				GameModel.getInstance().getChessPiece(pGrid.getX(), pGrid.getY()) == null){

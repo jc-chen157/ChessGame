@@ -1,15 +1,15 @@
-package ui.gameBoard;
+package ui;
 
 import backend.chess.Color;
 import javafx.scene.layout.HBox;
 
-public class GridView extends HBox{
+public class BoardSquareView extends HBox{
 	
 	int aX;
 	int aY;
 	Color aColor;
 	
-	public GridView(int i, int j, Color color){
+	public BoardSquareView(int i, int j, Color color){
 		super();
 		aX = i;
 		aY = j;

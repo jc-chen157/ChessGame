@@ -9,12 +9,12 @@ import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.MenuBar;
 import javafx.stage.*;
-import ui.gameBoard.ChessBoardView;
-import ui.menuBar.ChessGameMenuBar;
-import ui.player_timer.PlayerAndTimerDisplay;
-import ui.player_timer.PlayerInfoPanel;
-import ui.player_timer.TimerView;
-import ui.recording.RecordingPanel;
+import ui.ChessBoardPanel;
+import ui.ChessGameMenuBar;
+import ui.PlayerTimerPanel;
+import ui.PlayerInfoView;
+import ui.RecordingPanel;
+import ui.TimerView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -49,7 +49,7 @@ public class ChessGame extends Application{
        
         // initialize the game.
         GameModel model = GameModel.getInstance();
-        ChessBoardView chessBoard = new ChessBoardView();
+        ChessBoardPanel chessBoard = new ChessBoardPanel();
         model.addObserver(chessBoard);
         model.reset();
         
@@ -81,14 +81,14 @@ public class ChessGame extends Application{
 	
 	
 	private void addPlayerAndTimerComponent(BorderPane pBoard){
-		PlayerAndTimerDisplay playerDisplay = new PlayerAndTimerDisplay();
+		PlayerTimerPanel playerDisplay = new PlayerTimerPanel();
         Player testPlayer = new Player("Jiajun Chen");
-        PlayerInfoPanel playerInfo = new PlayerInfoPanel(testPlayer);
+        PlayerInfoView playerInfo = new PlayerInfoView(testPlayer);
         TimerView timerView = new TimerView();
 //        TimerModel timerModel = TimerModel.getInstance();
 //        timerModel.addObserver(timerView);
         Player testPlayer2 = new Player("Wenrong Chen");
-        PlayerInfoPanel playerInfo2 = new PlayerInfoPanel(testPlayer2);
+        PlayerInfoView playerInfo2 = new PlayerInfoView(testPlayer2);
         playerDisplay.getChildren().addAll(playerInfo, timerView, playerInfo2);
         pBoard.setLeft(playerDisplay);
 	}

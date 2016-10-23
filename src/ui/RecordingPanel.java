@@ -1,4 +1,4 @@
-package ui.recording;
+package ui;
 
 import app.middleware.GameModel;
 import app.middleware.UIObserver;

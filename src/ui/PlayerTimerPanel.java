@@ -1,4 +1,4 @@
-package ui.player_timer;
+package ui;
 
 import javafx.scene.layout.VBox;
 
@@ -7,9 +7,9 @@ import javafx.scene.layout.VBox;
  * @author JiajunChen
  *
  */
-public class PlayerAndTimerDisplay extends VBox{
+public class PlayerTimerPanel extends VBox{
 	
-	public PlayerAndTimerDisplay(){
+	public PlayerTimerPanel(){
 		super();
 		this.setWidth(0);
 		this.setHeight(600);

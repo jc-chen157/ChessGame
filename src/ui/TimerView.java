@@ -1,4 +1,4 @@
-package ui.player_timer;
+package ui;
 
 import app.middleware.TimerModel;
 import app.middleware.UIObserver;

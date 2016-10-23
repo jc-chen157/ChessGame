@@ -1,4 +1,4 @@
-package ui.gameBoard;
+package ui;
 
 import backend.chess.ChessPiece;
 import javafx.scene.control.Label;
@@ -7,9 +7,9 @@ import javafx.scene.image.ImageView;
 public class PieceLabel extends Label{
 	private boolean isSelected;
 	private final ChessPiece aChessPiece;
-	private GridView aCurrentGrid;
+	private BoardSquareView aCurrentGrid;
 	
-	public PieceLabel(ImageView pChessImage, ChessPiece pPiece, GridView pGrid){
+	public PieceLabel(ImageView pChessImage, ChessPiece pPiece, BoardSquareView pGrid){
 		super("", pChessImage);
 		aChessPiece = pPiece;
 		isSelected = false;
@@ -28,7 +28,7 @@ public class PieceLabel extends Label{
 		return aChessPiece;
 	}
 
-	public GridView getCurrentGrid(){
+	public BoardSquareView getCurrentGrid(){
 		return aCurrentGrid;
 	}
 }

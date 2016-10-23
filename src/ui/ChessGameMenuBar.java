@@ -1,4 +1,4 @@
-package ui.menuBar;
+package ui;
 
 import java.util.Optional;
 

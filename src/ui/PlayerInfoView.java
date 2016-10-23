@@ -1,4 +1,4 @@
-package ui.player_timer;
+package ui;
 
 
 import backend.player.Player;
@@ -9,12 +9,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class PlayerInfoPanel extends HBox{
+public class PlayerInfoView extends HBox{
 	
 	private static final double MARGIN_OUTER = 10 ;
 	private final String DEFAULTPATH = "default_profile.png";
 	
-	public PlayerInfoPanel(Player pPlayer){
+	public PlayerInfoView(Player pPlayer){
 		super();
 		this.setPadding(new Insets(MARGIN_OUTER));
 		ImageView profilePicture = getProfilePicture(pPlayer.getPicturePath());

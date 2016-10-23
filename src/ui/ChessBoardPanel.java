@@ -1,4 +1,4 @@
-package ui.gameBoard;
+package ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,20 +24,20 @@ import javafx.scene.media.AudioClip;
  * @author JiajunChen
  *
  */
-public class ChessBoardView extends GridPane implements UIObserver{
+public class ChessBoardPanel extends GridPane implements UIObserver{
 	
 	private PieceLabel aSelectedPiece = null;
-	private List<GridView> aChessBoard = new ArrayList<>();
+	private List<BoardSquareView> aChessBoard = new ArrayList<>();
 	private AudioClip aClickSound = new AudioClip(ChessGame.class.getClassLoader().getResource("click.mp3").toString());
 	/**
 	 * The constructor sets the board view. 
 	 */
-	public ChessBoardView(){
+	public ChessBoardPanel(){
 		for(int i = 0; i < 8; i++){
 			for(int j = 0; j < 8; j++){
 				// white grid
 				if((i +j) % 2 == 0){
-					GridView grid = new GridView(i, j, Color.WHITE); 
+					BoardSquareView grid = new BoardSquareView(i, j, Color.WHITE); 
 					grid.setPrefSize(80, 80);
 					grid.setStyle("-fx-background-color: azure;");
 					grid.setAlignment(Pos.CENTER);
@@ -46,7 +46,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 					addSelectionListenerToGrid(grid);
 					this.add(grid,i,j);
 				}else{
-					GridView grid = new GridView(i, j, Color.BLACK);
+					BoardSquareView grid = new BoardSquareView(i, j, Color.BLACK);
 					grid.setPrefSize(80, 80);
 					grid.setStyle("-fx-background-color: grey;");
 					grid.setAlignment(Pos.CENTER);
@@ -74,8 +74,8 @@ public class ChessBoardView extends GridPane implements UIObserver{
 					PieceLabel chessLabel = new PieceLabel(chessImage, piece, null);
 					addSelectionListenerToChessPiece(chessLabel);
 					for(Node child: this.getChildren()){
-						if(child instanceof GridView){
-							GridView grid = (GridView) child;
+						if(child instanceof BoardSquareView){
+							BoardSquareView grid = (BoardSquareView) child;
 							if(grid.getX() == i && grid.getY() == j){
 								grid.getChildren().add(chessLabel);
 							}
@@ -99,7 +99,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	 */
 	@Override
 	public void updateView() {
-		for(GridView grid: aChessBoard){
+		for(BoardSquareView grid: aChessBoard){
 			grid.getChildren().clear();
 		}
 		initializeView();
@@ -136,7 +136,7 @@ public class ChessBoardView extends GridPane implements UIObserver{
 	 * Add listener to Grid. Again this job should be delegated to GridView itself.
 	 * @param pGrid
      */
-	private void addSelectionListenerToGrid(GridView pGrid){
+	private void addSelectionListenerToGrid(BoardSquareView pGrid){
 		pGrid.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
