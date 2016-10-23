@@ -1,7 +1,5 @@
 package ui;
 
-import app.middleware.TimerModel;
-import app.middleware.UIObserver;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -10,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import middleware.engine.TimerModel;
+import middleware.engine.UIObserver;
 
 public class TimerView extends VBox implements UIObserver{
 	

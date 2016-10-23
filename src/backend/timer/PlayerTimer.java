@@ -1,6 +1,6 @@
 package backend.timer;
 
-import app.middleware.TimerModel;
+import middleware.engine.TimerModel;
 
 /**
  * Timer which keeps track of the remaining time for the player

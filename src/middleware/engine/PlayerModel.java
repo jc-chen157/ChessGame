@@ -1,4 +1,4 @@
-package app.middleware;
+package middleware.engine;
 
 public class PlayerModel {
 

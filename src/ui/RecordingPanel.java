@@ -1,12 +1,12 @@
 package ui;
 
-import app.middleware.GameModel;
-import app.middleware.UIObserver;
 import backend.chess.Color;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import middleware.engine.GameModel;
+import middleware.engine.UIObserver;
 
 public class RecordingPanel extends HBox implements UIObserver{
 	

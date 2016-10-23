@@ -2,13 +2,13 @@ package app;
 
 import java.io.File;
 
-import app.middleware.GameModel;
-import app.middleware.TimerModel;
 import backend.player.Player;
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.scene.control.MenuBar;
 import javafx.stage.*;
+import middleware.engine.GameModel;
+import middleware.engine.TimerModel;
 import ui.ChessBoardPanel;
 import ui.ChessGameMenuBar;
 import ui.PlayerTimerPanel;

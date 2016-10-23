@@ -1,9 +1,9 @@
 package backend.recording;
 
-import app.middleware.GameModel;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.chess.PieceType;
+import middleware.engine.GameModel;
 
 public class MoveCommand{
 

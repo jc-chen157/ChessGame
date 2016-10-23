@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.ChessGame;
-import app.middleware.GameModel;
-import app.middleware.UIObserver;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.rules.RuleBook;
@@ -17,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.AudioClip;
+import middleware.engine.GameModel;
+import middleware.engine.UIObserver;
 
 /**
  * Main UI Class, aggregate the Piece Label and Grid View. 

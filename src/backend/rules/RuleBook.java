@@ -1,10 +1,10 @@
 package backend.rules;
 
-import app.middleware.GameModel;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.chess.PieceType;
 import backend.recording.MoveCommand;
+import middleware.engine.GameModel;
 import ui.BoardSquareView;
 
 /**
