@@ -1,9 +1,13 @@
 package backend.chess;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 
 /**
  * ChessBoard Class implemented with SingleTon Design Pattern.
@@ -97,6 +101,23 @@ public class ChessBoard {
 	    	writer.write(gson.toJson(aBoard));
 	    	writer.close();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void loadGame(){
+    	Gson gson = new Gson();
+    	try {
+			ChessPiece[][] board = gson.fromJson(new FileReader("output.json"), ChessPiece[][].class);
+			aBoard = board;
+    	} catch (JsonSyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonIOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

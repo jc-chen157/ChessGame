@@ -88,6 +88,11 @@ public class GameModel {
 		aChessBoard.saveGame();
 	}
 	
+	public void loadGame() {
+		aChessBoard.loadGame();
+		notifyObserver();
+	}
+	
 //	public void loadGame(File pFile){
 //		
 //	}

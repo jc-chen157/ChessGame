@@ -52,11 +52,7 @@ public class GameMenuBar extends MenuBar{
 		MenuItem openGame = new MenuItem("Open...");
 		openGame.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent t){
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Function under development...");
-				alert.setHeaderText(null);
-				alert.setContentText("This function is not available yet ^_^\"   ");
-				alert.showAndWait();
+				GameModel.getInstance().loadGame();
 			}
 		});
 		
