@@ -6,7 +6,7 @@ import java.util.Stack;
 import backend.chess.ChessBoard;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
-import backend.recording.MoveCommand;
+import backend.recording.BasicMoveCommand;
 
 /**
  * The bridge between back-end and front-end of the chess game.
@@ -18,7 +18,7 @@ public class GameModel {
 	private static final GameModel INSTANCE = new GameModel();
 	private final List<UIObserver> aObserverList = new ArrayList<>();
 	private ChessBoard aChessBoard = ChessBoard.getInstance();
-	private Stack<MoveCommand> aMoveStack = new Stack<>();
+	private Stack<BasicMoveCommand> aMoveStack = new Stack<>();
 	private GameModel(){}
 	
 	public static GameModel getInstance(){
@@ -54,7 +54,7 @@ public class GameModel {
 		aChessBoard.removePiece(pX, pY);
 	}
 	
-	public void executeMove(MoveCommand pCommand){
+	public void executeMove(BasicMoveCommand pCommand){
 		aMoveStack.push(pCommand);
 		pCommand.execute();
 		notifyObserver();

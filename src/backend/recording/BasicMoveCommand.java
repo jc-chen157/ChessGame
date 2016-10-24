@@ -5,7 +5,7 @@ import backend.chess.Color;
 import backend.chess.PieceType;
 import middleware.engine.GameModel;
 
-public class MoveCommand{
+public class BasicMoveCommand implements Command{
 
 	
 	private ChessPiece aSelectPiece;
@@ -15,7 +15,7 @@ public class MoveCommand{
 	private int newX;
 	private int newY;
 	
-	public MoveCommand(ChessPiece pPiece, int pNewX, int pNewY) {
+	public BasicMoveCommand(ChessPiece pPiece, int pNewX, int pNewY) {
 		aSelectPiece = pPiece;
 		oldX = pPiece.getX();
 		oldY = pPiece.getY();
@@ -24,6 +24,7 @@ public class MoveCommand{
 		aEatenPiece = GameModel.getInstance().getChessPiece(pNewX, newY);
 	}
 	
+	@Override
 	public void execute(){
 		GameModel.getInstance().removeChessPiece(oldX, oldY);
 		aSelectPiece.setPosition(newX, newY);
@@ -40,14 +41,17 @@ public class MoveCommand{
 	}
 	
 	//TODO: to be done later
+	@Override
 	public void undo(){
 		
 	}
 	
+	@Override
 	public Color getColor(){
 		return aSelectPiece.getColor();
 	}
 	
+	@Override
 	public String toString(){
 		if(aEatenPiece == null){
 			if(aSelectPiece.getType() == PieceType.PAWN){

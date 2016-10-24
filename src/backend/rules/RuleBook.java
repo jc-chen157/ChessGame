@@ -3,7 +3,8 @@ package backend.rules;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.chess.PieceType;
-import backend.recording.MoveCommand;
+import backend.recording.BasicMoveCommand;
+import backend.recording.CastleCommand;
 import middleware.engine.GameModel;
 import ui.BoardSquareView;
 
@@ -33,14 +34,19 @@ public class RuleBook {
     			break;	
     		case KING:
     			isValid = isValidKingMove(pPiece, pGrid);
-    			if(isCastleValid(pPiece, pGrid)) return true;
+    			CastleType isCastileValid = isCastleValid(pPiece, pGrid);
+    			if(isCastileValid!= null){
+    				CastleCommand command = new CastleCommand(pPiece, isCastileValid);
+    	   			GameModel.getInstance().executeMove(command);
+    				return true;
+    			}
     			break;	
     		default: isValid = false;
     			break;
     	}
     	// TODO: add the move command here 
     	if(isValid){
-   			MoveCommand command = new MoveCommand(pPiece, pGrid.getX(), pGrid.getY());
+   			BasicMoveCommand command = new BasicMoveCommand(pPiece, pGrid.getX(), pGrid.getY());
    			GameModel.getInstance().executeMove(command);
     	}
     	return isValid;
@@ -304,7 +310,7 @@ public class RuleBook {
     /*
      * TODO: Verify if a Castle Move is Legal.
      */
-	private static boolean isCastleValid(ChessPiece pPiece, BoardSquareView pGrid){
+	private static CastleType isCastleValid(ChessPiece pPiece, BoardSquareView pGrid){
 		// white long castle.
 		if(pGrid.getX() == 7 && pGrid.getY() == 2 &&
 				GameModel.getInstance().getChessPiece(pGrid.getX(), pGrid.getY()) == null){
@@ -312,22 +318,13 @@ public class RuleBook {
 			if(GameModel.getInstance().getChessPiece(7, 1) != null || 
 					GameModel.getInstance().getChessPiece(7, 2) != null ||
 					GameModel.getInstance().getChessPiece(7, 3) != null ){
-				return false;
+				return null;
 			}
 			ChessPiece rook = GameModel.getInstance().getChessPiece(7, 0); 
-			if(rook != null && rook.getType() == PieceType.ROOK && rook.getColor() == pPiece.getColor()){
-				if(!pPiece.hasMoved() && !rook.hasMoved()){
-					GameModel.getInstance().removeChessPiece(pPiece.getX(), pPiece.getY());
-					GameModel.getInstance().removeChessPiece(7, 0);
-					GameModel.getInstance().addChessPiece(pPiece, pGrid.getX(), pGrid.getY());
-					GameModel.getInstance().addChessPiece(rook, pGrid.getX(), pGrid.getY()+1);
-					pPiece.setPosition(pGrid.getX(), pGrid.getY());
-					pPiece.moved();
-					rook.setPosition(pGrid.getX(), pGrid.getY()+1);
-					rook.moved();
-					return true;
+			if(rook != null && rook.getType() == PieceType.ROOK && rook.getColor() == pPiece.getColor() &&
+				!pPiece.hasMoved() && !rook.hasMoved()){
+					return CastleType.LONG;
 				}
-			}
 		}
 		// white short castle
 		if(pGrid.getX() == 7 && pGrid.getY() == 6 &&
@@ -335,21 +332,12 @@ public class RuleBook {
 			// first pre-condition, make sure the path is clear.
 			if(GameModel.getInstance().getChessPiece(7, 5) != null || 
 					GameModel.getInstance().getChessPiece(7, 6) != null){
-				return false;
+				return CastleType.SHORT;
 			}
 			ChessPiece rook = GameModel.getInstance().getChessPiece(7, 7); 
-			if(rook != null && rook.getType() == PieceType.ROOK && rook.getColor() == pPiece.getColor()){
-				if(!pPiece.hasMoved() && !rook.hasMoved()){
-					GameModel.getInstance().removeChessPiece(pPiece.getX(), pPiece.getY());
-					GameModel.getInstance().removeChessPiece(7, 7);
-					GameModel.getInstance().addChessPiece(pPiece, pGrid.getX(), pGrid.getY());
-					GameModel.getInstance().addChessPiece(rook, pGrid.getX(), pGrid.getY() - 1);
-					pPiece.setPosition(pGrid.getX(), pGrid.getY());
-					pPiece.moved();
-					rook.setPosition(pGrid.getX(), pGrid.getY() - 1);
-					rook.moved();
-					return true;
-				}
+			if(rook != null && rook.getType() == PieceType.ROOK && rook.getColor() == pPiece.getColor() &&
+				!pPiece.hasMoved() && !rook.hasMoved()){
+					return CastleType.SHORT;
 			}
 		}
 		
@@ -360,21 +348,12 @@ public class RuleBook {
 			if(GameModel.getInstance().getChessPiece(0, 1) != null || 
 					GameModel.getInstance().getChessPiece(0, 2) != null ||
 					GameModel.getInstance().getChessPiece(0, 3) != null ){
-				return false;
+				return null;
 			}
 			ChessPiece rook = GameModel.getInstance().getChessPiece(0, 0); 
-			if(rook != null && rook.getType() == PieceType.ROOK && rook.getColor() == pPiece.getColor()){
-				if(!pPiece.hasMoved() && !rook.hasMoved()){
-					GameModel.getInstance().removeChessPiece(pPiece.getX(), pPiece.getY());
-					GameModel.getInstance().removeChessPiece(0, 0);
-					GameModel.getInstance().addChessPiece(pPiece, pGrid.getX(), pGrid.getY());
-					GameModel.getInstance().addChessPiece(rook, pGrid.getX(), pGrid.getY()+1);
-					pPiece.setPosition(pGrid.getX(), pGrid.getY());
-					pPiece.moved();
-					rook.setPosition(pGrid.getX(), pGrid.getY()+1);
-					rook.moved();
-					return true;
-				}
+			if(rook != null && rook.getType() == PieceType.ROOK && rook.getColor() == pPiece.getColor() &&
+				!pPiece.hasMoved() && !rook.hasMoved()){
+					return CastleType.LONG;
 			}
 		}
 		// black short castle
@@ -383,24 +362,15 @@ public class RuleBook {
 			// first pre-condition, make sure the path is clear.
 			if(GameModel.getInstance().getChessPiece(0, 5) != null || 
 					GameModel.getInstance().getChessPiece(0, 6) != null){
-				return false;
+				return null;
 			}
 			ChessPiece rook = GameModel.getInstance().getChessPiece(0, 7); 
-			if(rook != null && rook.getType() == PieceType.ROOK && rook.getColor() == pPiece.getColor()){
-				if(!pPiece.hasMoved() && !rook.hasMoved()){
-					GameModel.getInstance().removeChessPiece(pPiece.getX(), pPiece.getY());
-					GameModel.getInstance().removeChessPiece(0, 7);
-					GameModel.getInstance().addChessPiece(pPiece, pGrid.getX(), pGrid.getY());
-					GameModel.getInstance().addChessPiece(rook, pGrid.getX(), pGrid.getY() - 1);
-					pPiece.setPosition(pGrid.getX(), pGrid.getY());
-					pPiece.moved();
-					rook.setPosition(pGrid.getX(), pGrid.getY() - 1);
-					rook.moved();
-					return true;
-				}
+			if(rook != null && rook.getType() == PieceType.ROOK && rook.getColor() == pPiece.getColor() &&
+				!pPiece.hasMoved() && !rook.hasMoved()){
+					return CastleType.SHORT;
 			}
 		}
-    	return false;
+    	return null;
     }
     // System.out.println("Piece position " + pPiece.getX() + ", " + pPiece.getY() );
 	// System.out.println("Grid position " + pGrid.getX() + ", " + pGrid.getY() );
