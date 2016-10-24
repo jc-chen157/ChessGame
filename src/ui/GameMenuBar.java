@@ -15,7 +15,7 @@ import javafx.scene.control.MenuItem;
 
 public class GameMenuBar extends MenuBar{
 	
-	private final String ABOUTINFO = "Version 1.0.1 \n" + "Developed by Jiajun Chen";
+	private final String ABOUTINFO = "Version 0.1.3 \n" + "Developed by Jiajun Chen";
 	
 	public GameMenuBar(){
 		super();
@@ -52,14 +52,14 @@ public class GameMenuBar extends MenuBar{
 		MenuItem openGame = new MenuItem("Open...");
 		openGame.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent t){
-				GameModel.getInstance().loadGame();
+				GameModel.getInstance().loadGame(ABOUTINFO);
 			}
 		});
 		
 		MenuItem saveGame = new MenuItem("Save");
 		saveGame.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent t){
-				GameModel.getInstance().saveGame();
+				GameModel.getInstance().saveGame(ABOUTINFO);
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Success");
 				alert.setHeaderText(null);
@@ -90,11 +90,7 @@ public class GameMenuBar extends MenuBar{
 		MenuItem undo = new MenuItem("Undo");
 		undo.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent t){
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Function under development...");
-				alert.setHeaderText(null);
-				alert.setContentText("This function is not available yet ^_^\"   ");
-				alert.showAndWait();
+				GameModel.getInstance().undoMove();
 			}
 		});
 		
@@ -115,7 +111,7 @@ public class GameMenuBar extends MenuBar{
 	}
 	
 	/**
-	 * Create Player Menu
+	 * TODO: Create Player Menu
 	 */
 	private void addPlayerMenu() {
 		

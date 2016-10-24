@@ -18,12 +18,13 @@ public class ChessBoard {
     // board itself
     private static final ChessBoard INSTANCE = new ChessBoard();
     private ChessPiece[][] aBoard = new ChessPiece[8][8];
+    private ChessPiece aBlackKing;
+    private ChessPiece aWhiteKing;
 
     /**
      * Constructor
      */
     private ChessBoard(){}
-
 
     /**
      * Return the Instance of the ChessBoard
@@ -48,6 +49,7 @@ public class ChessBoard {
     	aBoard[0][3].setPosition(0, 3);
     	aBoard[0][4] = new ChessPiece(Color.BLACK, PieceType.KING);
     	aBoard[0][4].setPosition(0, 4);
+    	aBlackKing = aBoard[0][4];
     	aBoard[0][5] = new ChessPiece(Color.BLACK, PieceType.BISHOP);
     	aBoard[0][5].setPosition(0, 5);
     	aBoard[0][6] = new ChessPiece(Color.BLACK, PieceType.KNIGHT);
@@ -72,6 +74,7 @@ public class ChessBoard {
     	aBoard[7][3].setPosition(7, 3);
     	aBoard[7][4] = new ChessPiece(Color.WHITE, PieceType.KING);
     	aBoard[7][4].setPosition(7, 4);
+    	aWhiteKing = aBoard[7][4];
     	aBoard[7][5] = new ChessPiece(Color.WHITE, PieceType.BISHOP);
     	aBoard[7][5].setPosition(7, 5);
     	aBoard[7][6] = new ChessPiece(Color.WHITE, PieceType.KNIGHT);
@@ -80,8 +83,18 @@ public class ChessBoard {
     	aBoard[7][7].setPosition(7, 7);
     }
     
+    /**
+     * Get the chess piece at the specific index.
+     * @param pX
+     * @param pY
+     * @return
+     */
     public ChessPiece getPiece(int pX, int pY){
     	return aBoard[pX][pY];
+    }
+    
+    public ChessPiece getOpponentKing(Color pColor) {
+    	return pColor == Color.BLACK ? aWhiteKing : aBlackKing;
     }
     
     public void removePiece(int pX, int pY){
@@ -92,12 +105,12 @@ public class ChessBoard {
         aBoard[pX][pY] = pChess;
     }
     
-    public void saveGame() {
+    public void saveGame(String pPath) {
     	Gson gson = new Gson();
     	System.out.println(gson.toJson(aBoard));
     	FileWriter writer;
 		try {
-			writer = new FileWriter("output.json");
+			writer = new FileWriter(pPath);
 	    	writer.write(gson.toJson(aBoard));
 	    	writer.close();
 		} catch (IOException e) {
@@ -106,10 +119,10 @@ public class ChessBoard {
 		}
     }
     
-    public void loadGame(){
+    public void loadGame(String pPath){
     	Gson gson = new Gson();
     	try {
-			ChessPiece[][] board = gson.fromJson(new FileReader("output.json"), ChessPiece[][].class);
+			ChessPiece[][] board = gson.fromJson(new FileReader(pPath), ChessPiece[][].class);
 			aBoard = board;
     	} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
@@ -121,7 +134,5 @@ public class ChessBoard {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-    	
     }
 }

@@ -6,7 +6,7 @@ import java.util.Stack;
 import backend.chess.ChessBoard;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
-import backend.recording.BasicMoveCommand;
+import backend.recording.Command;
 
 /**
  * The bridge between back-end and front-end of the chess game.
@@ -18,8 +18,12 @@ public class GameModel {
 	private static final GameModel INSTANCE = new GameModel();
 	private final List<UIObserver> aObserverList = new ArrayList<>();
 	private ChessBoard aChessBoard = ChessBoard.getInstance();
-	private Stack<BasicMoveCommand> aMoveStack = new Stack<>();
+	private Stack<Command> aMoveStack = new Stack<>();
+	private Stack<Command> aDiscardedMoveStack = new Stack<>();
+	private int aMoveCount = 0;
+	
 	private GameModel(){}
+	
 	
 	public static GameModel getInstance(){
 		return INSTANCE;
@@ -54,14 +58,17 @@ public class GameModel {
 		aChessBoard.removePiece(pX, pY);
 	}
 	
-	public void executeMove(BasicMoveCommand pCommand){
+	public void executeMove(Command pCommand){
 		aMoveStack.push(pCommand);
 		pCommand.execute();
+		aMoveCount++;
 		notifyObserver();
 	}
 	
 	public void undoMove(){
-		aMoveStack.pop().undo();
+		aDiscardedMoveStack.push(aMoveStack.pop());
+		aDiscardedMoveStack.peek().undo();
+		aMoveCount--;
 		notifyObserver();
 	}
 	
@@ -75,27 +82,33 @@ public class GameModel {
 		return aMoveStack.peek().getColor();
 	}
 	
+	public int getMoveCount(){
+		return aMoveCount;
+	}
+	
     /**
      * Reset the whole game. 
      */
 	public void reset(){
 		aChessBoard.reset();
 		aMoveStack.clear();
+		aDiscardedMoveStack.clear();
+		aMoveCount = 0;
 		notifyObserver();
 	}
 	
-	public void saveGame() {
-		aChessBoard.saveGame();
+	public void saveGame(String pPath) {
+		aChessBoard.saveGame(pPath);
 	}
 	
-	public void loadGame() {
-		aChessBoard.loadGame();
+	/**
+	 * TODO: add load game function
+	 * @param pFile
+	 */
+	public void loadGame(String pPath) {
+		aChessBoard.loadGame(pPath);
 		notifyObserver();
 	}
-	
-//	public void loadGame(File pFile){
-//		
-//	}
 	
 	/**
 	 * Add observer

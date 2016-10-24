@@ -55,7 +55,7 @@ public class ChessPiece {
     }
     
     public void moved(){
-    	hasMoved = true;
+    	hasMoved = !hasMoved;
     }
 	
 }

@@ -40,10 +40,21 @@ public class BasicMoveCommand implements Command{
    		}
 	}
 	
-	//TODO: to be done later
 	@Override
 	public void undo(){
-		
+		GameModel.getInstance().removeChessPiece(newX, newY);
+		aSelectPiece.setPosition(oldX, oldY);
+		GameModel.getInstance().addChessPiece(aSelectPiece, oldX, oldY);
+   		aSelectPiece.moved();
+   		if(aEatenPiece != null){
+   			GameModel.getInstance().addChessPiece(aEatenPiece, newX, newY);
+   		}
+   		if(aSelectPiece.getType() == PieceType.PAWN && 
+   				(newX == 0 || newX == 7)){
+   			GameModel.getInstance().removeChessPiece(newX, newY);
+       		GameModel.getInstance().addChessPiece(aSelectPiece, newX, newY);
+       		GameModel.getInstance().getChessPiece(newX, newY).setPosition(newX, newY);
+   		}
 	}
 	
 	@Override
@@ -64,7 +75,6 @@ public class BasicMoveCommand implements Command{
 		return getPieceAbbreviation(aSelectPiece) + "x" + 
 				getHorizantalIndex(newY) + getVerticalIndex(newX);
 	}
-	
 	
 	private String getHorizantalIndex(int pInt) {
 		return String.valueOf(((char) (pInt + 97)));
