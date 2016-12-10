@@ -1,7 +1,8 @@
 
 public class PlayGround {
-//	public static void main(String[] args){
-//		char a = (char) (1 + 97);
-//		System.out.println(String.valueOf(a));
-//	}
+	public static void main(String[] args){
+		int a = 0;
+		a = (a - 1) % 6;
+		System.out.println(a);
+	}
 }

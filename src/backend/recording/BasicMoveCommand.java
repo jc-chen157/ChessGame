@@ -7,7 +7,6 @@ import middleware.engine.GameModel;
 
 public class BasicMoveCommand implements Command{
 
-	
 	private ChessPiece aSelectPiece;
 	private ChessPiece aEatenPiece;
 	private int oldX;
@@ -30,6 +29,7 @@ public class BasicMoveCommand implements Command{
 		aSelectPiece.setPosition(newX, newY);
 		GameModel.getInstance().addChessPiece(aSelectPiece, newX, newY);
    		aSelectPiece.moved();
+   		
    		if(aSelectPiece.getType() == PieceType.PAWN && 
    				(newX == 0 || newX == 7)){
    			GameModel.getInstance().removeChessPiece(newX, newY);

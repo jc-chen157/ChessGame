@@ -2,3 +2,5 @@
 /ChessGame.iml
 /.DS_Store
 /.classpath
+/output.json
+/output.yaml
