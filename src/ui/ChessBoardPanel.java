@@ -151,7 +151,6 @@ public class ChessBoardPanel extends GridPane implements UIObserver{
 				}else{
                     // update UI and Model
 					if(RuleBook.isValidMove(aSelectedPiece.getChessPiece(), pGrid)){
-//						TimerModel.getInstance().pauseTimer(aSelectedPiece.getChessPiece().getColor());
                         aSelectedPiece = null;
                     }
                     

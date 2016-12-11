@@ -1,5 +1,9 @@
 package ui;
 
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -8,13 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import middleware.engine.TimerModel;
 import middleware.engine.UIObserver;
 
 public class TimerView extends VBox implements UIObserver{
 	
-	private Label whiteTimerLabel = new Label(TimerModel.getInstance().getWhiteTimerStatus());
-	private Label blackTimerLabel = new Label(TimerModel.getInstance().getBlackTimerStatus());
+	private Label whiteTimerLabel = new Label();
+	private Label blackTimerLabel = new Label();
+	private Date aDate = new Date();
 	
 	public TimerView(){
 		whiteTimerLabel.setPrefWidth(230);
@@ -34,18 +38,20 @@ public class TimerView extends VBox implements UIObserver{
 	
 	@Override
 	public void updateView() {
-		Thread t = new Thread(new Runnable(){
-			@Override
-			public void run() {
-					Platform.runLater(new Runnable() {
-			            public void run() {
-			            	whiteTimerLabel.setText(TimerModel.getInstance().getWhiteTimerStatus());
-			        		blackTimerLabel.setText(TimerModel.getInstance().getBlackTimerStatus());
-			        		}
-			        });
-				}
-		});
-		t.start();
+		Timer t = new Timer();
+		t.scheduleAtFixedRate(new TimerTask(){
+			public void run(){
+				Platform.runLater(new Runnable(){
+
+					@Override
+					public void run() {
+						whiteTimerLabel.setText("" +aDate.getDate());
+					}
+					
+				});
+			}
+		}, 0, 1000);
+		
 	}
 	
 	private Button generateStartButton(){
@@ -54,7 +60,6 @@ public class TimerView extends VBox implements UIObserver{
 
 			@Override
 			public void handle(MouseEvent event) {
-				TimerModel.getInstance().startTimer();
 			}
 			
 		});

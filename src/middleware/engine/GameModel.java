@@ -7,6 +7,7 @@ import backend.chess.ChessBoard;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.recording.Command;
+import ui.TimerView;
 
 /**
  * The bridge between back-end and front-end of the chess game.
@@ -20,6 +21,7 @@ public class GameModel {
 	private ChessBoard aChessBoard = ChessBoard.getInstance();
 	private Stack<Command> aMoveStack = new Stack<>();
 	private Stack<Command> aDiscardedMoveStack = new Stack<>();
+	private TimerView aTimerView = null;
 	private int aMoveCount = 0;
 	
 	private GameModel(){}
@@ -62,6 +64,7 @@ public class GameModel {
 		aMoveStack.push(pCommand);
 		pCommand.execute();
 		aMoveCount++;
+		
 		notifyObserver();
 	}
 	
@@ -116,6 +119,10 @@ public class GameModel {
 	 */
 	public void addObserver(UIObserver pObserver){
 		aObserverList.add(pObserver);
+	}
+	
+	public void setTimerView(TimerView pView){
+		aTimerView = pView;
 	}
 	
 	/**
