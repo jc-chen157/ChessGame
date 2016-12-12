@@ -101,5 +101,4 @@ public class TimerView extends VBox implements UIObserver{
 		});
 		return button;
 	}
-	
 }

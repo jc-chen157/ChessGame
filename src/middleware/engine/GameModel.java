@@ -30,7 +30,6 @@ public class GameModel {
 	
 	private GameModel(){}
 	
-	
 	public static GameModel getInstance(){
 		return INSTANCE;
 	}
@@ -158,8 +157,9 @@ public class GameModel {
 	}
 	
 	/**
-	 * Print the board in text View.
+	 * Print the board in text View. Use it only for debugging purpose
 	 */
+	@Deprecated
     public void printBackEnd(){
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
