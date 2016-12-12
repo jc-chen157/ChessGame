@@ -6,7 +6,9 @@ import java.util.Stack;
 import backend.chess.ChessBoard;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
+import backend.player.PlayerTimer;
 import backend.recording.Command;
+import javafx.beans.property.StringProperty;
 import ui.TimerView;
 
 /**
@@ -22,6 +24,8 @@ public class GameModel {
 	private Stack<Command> aMoveStack = new Stack<>();
 	private Stack<Command> aDiscardedMoveStack = new Stack<>();
 	private TimerView aTimerView = null;
+	private PlayerTimer aWhiteTimer = new PlayerTimer();
+	private PlayerTimer aBlackTimer = new PlayerTimer();
 	private int aMoveCount = 0;
 	
 	private GameModel(){}
@@ -64,7 +68,11 @@ public class GameModel {
 		aMoveStack.push(pCommand);
 		pCommand.execute();
 		aMoveCount++;
-		
+		if(pCommand.getColor() == Color.WHITE){
+			aTimerView.triggerTimer(Color.BLACK);
+		}else{
+			aTimerView.triggerTimer(Color.WHITE);
+		}
 		notifyObserver();
 	}
 	
@@ -131,6 +139,22 @@ public class GameModel {
 	 */
 	public void updateUI(){
 		notifyObserver();
+	}
+	
+	public void timerTick(Color pColor){
+		if(pColor == Color.WHITE){
+			aWhiteTimer.tick();
+		}else{
+			aBlackTimer.tick();
+		}
+	}
+	
+	public StringProperty getTimerStringProperty(Color pColor){
+		if(pColor == Color.WHITE){
+			return aWhiteTimer.getStringProperty();
+		}else{
+			return aBlackTimer.getStringProperty();
+		}
 	}
 	
 	/**
