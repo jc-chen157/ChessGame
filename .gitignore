@@ -1,6 +1,10 @@
 /bin/
-/ChessGame.iml
 /.DS_Store
 /.classpath
 /output.json
 /output.yaml
+/target/
+.project
+/.idea
+/.settings
+
