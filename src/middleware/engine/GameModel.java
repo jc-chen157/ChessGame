@@ -1,5 +1,7 @@
 package middleware.engine;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -8,8 +10,11 @@ import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.player.PlayerTimer;
 import backend.recording.Command;
+import backend.websocket_client.SimpleClient;
+import com.google.gson.Gson;
 import javafx.beans.property.StringProperty;
 import ui.TimerView;
+import backend.rules.RuleBook;
 
 /**
  * The bridge between back-end and front-end of the chess game.
@@ -17,7 +22,9 @@ import ui.TimerView;
  *
  */
 public class GameModel {
-	
+
+	private final String SERVER_URI = "ws://localhost:8886/websocket/";
+
 	private static final GameModel INSTANCE = new GameModel();
 	private final List<UIObserver> aObserverList = new ArrayList<>();
 	private ChessBoard aChessBoard = ChessBoard.getInstance();
@@ -26,10 +33,18 @@ public class GameModel {
 	private TimerView aTimerView = null;
 	private PlayerTimer aWhiteTimer = new PlayerTimer();
 	private PlayerTimer aBlackTimer = new PlayerTimer();
+	private SimpleClient client;
 	private int aMoveCount = 0;
-	
-	private GameModel(){}
-	
+	private String aLastMessage;
+
+	private GameModel() {
+		try {
+			client = new SimpleClient(new URI(SERVER_URI));
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static GameModel getInstance(){
 		return INSTANCE;
 	}
@@ -62,8 +77,14 @@ public class GameModel {
 	public void removeChessPiece(int pX, int pY){
 		aChessBoard.removePiece(pX, pY);
 	}
-	
+
+	/**
+	 * Execute the move.
+	 * @param pCommand
+	 */
 	public void executeMove(Command pCommand){
+
+		Command command = getCommandFromServer(pCommand);
 		aMoveStack.push(pCommand);
 		pCommand.execute();
 		aMoveCount++;
@@ -74,7 +95,20 @@ public class GameModel {
 		}
 		notifyObserver();
 	}
-	
+
+	private Command getCommandFromServer(Command pCommand) {
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(pCommand);
+		client.send(jsonString);
+		try {
+			Thread.sleep(30);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Message Received " + aLastMessage);
+		return pCommand;
+	}
+
 	public void undoMove(){
 		aDiscardedMoveStack.push(aMoveStack.pop());
 		aDiscardedMoveStack.peek().undo();
@@ -104,6 +138,8 @@ public class GameModel {
 		aMoveStack.clear();
 		aDiscardedMoveStack.clear();
 		aMoveCount = 0;
+		client.close();
+		client.connect();
 		notifyObserver();
 	}
 	
@@ -113,7 +149,6 @@ public class GameModel {
 	
 	/**
 	 * TODO: add load game function
-	 * @param pFile
 	 */
 	public void loadGame(String pPath) {
 		aChessBoard.loadGame(pPath);
@@ -180,4 +215,7 @@ public class GameModel {
 		}
 	}
 
+	public void receiveMessage(String s) {
+		aLastMessage = s;
+	}
 }

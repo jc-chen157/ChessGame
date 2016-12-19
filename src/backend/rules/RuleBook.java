@@ -5,6 +5,7 @@ import backend.chess.Color;
 import backend.chess.PieceType;
 import backend.recording.BasicMoveCommand;
 import backend.recording.CastleCommand;
+import backend.recording.Command;
 import middleware.engine.GameModel;
 import ui.BoardSquareView;
 
@@ -14,7 +15,7 @@ import ui.BoardSquareView;
  */
 public class RuleBook {
 	
-    public static boolean isValidMove(ChessPiece pPiece, BoardSquareView pGrid){
+    public static Command generateMoveCommand(ChessPiece pPiece, BoardSquareView pGrid){
     	boolean isValid = false;
     	switch(pPiece.getType()){
     		case PAWN:
@@ -34,11 +35,9 @@ public class RuleBook {
     			break;	
     		case KING:
     			isValid = isValidKingMove(pPiece, pGrid);
-    			CastleType isCastileValid = isCastleValid(pPiece, pGrid);
-    			if(isCastileValid!= null){
-    				CastleCommand command = new CastleCommand(pPiece, isCastileValid);
-    	   			GameModel.getInstance().executeMove(command);
-    				return true;
+    			CastleType isCastleValid = isCastleValid(pPiece, pGrid);
+    			if(isCastleValid!= null){
+    				return new CastleCommand(pPiece, isCastleValid);
     			}
     			break;	
     		default: isValid = false;
@@ -46,10 +45,9 @@ public class RuleBook {
     	}
     	// TODO: add the move command here 
     	if(isValid){
-   			BasicMoveCommand command = new BasicMoveCommand(pPiece, pGrid.getX(), pGrid.getY());
-   			GameModel.getInstance().executeMove(command);
+   			return new BasicMoveCommand(pPiece, pGrid.getX(), pGrid.getY());
     	}
-    	return isValid;
+    	return null;
     }
     
     /*

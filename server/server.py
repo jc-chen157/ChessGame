@@ -1,8 +1,10 @@
 import tornado.ioloop
 import tornado.web
+import tornado.websocket
 
 from tornado.options import define, options, parse_command_line
 
+ws_clients = []
 
 class IndexHandler(tornado.web.RequestHandler):
 
@@ -11,27 +13,29 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write("This is your response\n")
         self.finish()
 
-class WebSocketHandler(tornado.web.WebSocketHandler):
-
-    def __init__(self):
-        self.ws_clients = []
+class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
-        if(self not in self.ws_clients)
-        self.ws_clients.append(self)
-        print("WebSocket opened")
+        if self not in ws_clients:
+            if len(ws_clients) >= 2:
+                self.set_status(401)
+                self.on_close()
+            ws_clients.append(self)
+            print("WebSocket opened")
 
     def on_message(self, message):
         for client in ws_clients:
-            client.write_message(u"You said: " + message)
+            client.write_message(u"" + message )
 
     def on_close(self):
         print("WebSocket closed")
 
-
-app = tornado.web.Application([
+app = tornado.web.Application(
+handlers=[
     (r'/', IndexHandler),
-])
+    (r'/websocket/', WebSocketHandler),
+    ]
+)
 
 if __name__ == '__main__':
     parse_command_line()

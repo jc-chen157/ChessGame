@@ -6,6 +6,7 @@ import java.util.List;
 import app.ChessGame;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
+import backend.recording.Command;
 import backend.rules.RuleBook;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -141,19 +142,21 @@ public class ChessBoardPanel extends GridPane implements UIObserver{
 			@Override
 			public void handle(MouseEvent event) {
                 aClickSound.play();
+				// if no pieces has been selected, nothing happens
                 if(aSelectedPiece == null){
 					return;
                 }
-				// if no ChessPiece is selected, nothing happens.
+				// if selected piece located at the same grid, nothing happens
 				if(aSelectedPiece.getChessPiece().getX() == pGrid.getX() &&
 						aSelectedPiece.getChessPiece().getY() == pGrid.getY()){
 					return;
 				}else{
                     // update UI and Model
-					if(RuleBook.isValidMove(aSelectedPiece.getChessPiece(), pGrid)){
-                        aSelectedPiece = null;
+					Command command = RuleBook.generateMoveCommand(aSelectedPiece.getChessPiece(), pGrid);
+					if(command != null) {
+						GameModel.getInstance().executeMove(command);
+						aSelectedPiece = null;
                     }
-                    
 				}
 			}
 		});
