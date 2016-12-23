@@ -3,15 +3,20 @@ package middleware.engine;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import backend.chess.ChessBoard;
 import backend.chess.ChessPiece;
 import backend.chess.Color;
 import backend.player.PlayerTimer;
+import backend.recording.BasicMoveCommand;
 import backend.recording.Command;
 import backend.websocket_client.SimpleClient;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+import javafx.application.Platform;
 import javafx.beans.property.StringProperty;
 import ui.TimerView;
 import backend.rules.RuleBook;
@@ -35,7 +40,6 @@ public class GameModel {
 	private PlayerTimer aBlackTimer = new PlayerTimer();
 	private SimpleClient client;
 	private int aMoveCount = 0;
-	private String aLastMessage;
 
 	private GameModel() {
 		try {
@@ -50,15 +54,15 @@ public class GameModel {
 	}
 
 	/**
-	 * Add chessPiece to the board. 
+	 * Add chessPiece to the board.
 	 * @param pChess
 	 * @param pX
 	 * @param pY
 	 */
 	public void addChessPiece(ChessPiece pChess, int pX, int pY){
-       aChessBoard.addPiece(pChess, pX, pY);
-    }
-	
+		aChessBoard.addPiece(pChess, pX, pY);
+	}
+
 	/**
 	 * Return the ChessPiece for the specific Index
 	 * @param pX
@@ -68,7 +72,7 @@ public class GameModel {
 	public ChessPiece getChessPiece(int pX, int pY){
 		return aChessBoard.getPiece(pX, pY);
 	}
-	
+
 	/**
 	 * Remove ChessPiece on the board.
 	 * @param pX
@@ -82,9 +86,9 @@ public class GameModel {
 	 * Execute the move.
 	 * @param pCommand
 	 */
-	public void executeMove(Command pCommand){
+	private void executeMove(Command pCommand){
 
-		Command command = getCommandFromServer(pCommand);
+//		Command command = getCommandFromServer(pCommand);
 		aMoveStack.push(pCommand);
 		pCommand.execute();
 		aMoveCount++;
@@ -96,17 +100,19 @@ public class GameModel {
 		notifyObserver();
 	}
 
-	private Command getCommandFromServer(Command pCommand) {
+	public void sendCommandToServer(Command pCommand) {
 		Gson gson = new Gson();
 		String jsonString = gson.toJson(pCommand);
-		client.send(jsonString);
-		try {
-			Thread.sleep(30);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if(client.isConnected()){
+			client.send(jsonString);
+			try {
+				Thread.sleep(30);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}else{
+			executeMove(pCommand);
 		}
-		System.out.println("Message Received " + aLastMessage);
-		return pCommand;
 	}
 
 	public void undoMove(){
@@ -115,24 +121,24 @@ public class GameModel {
 		aMoveCount--;
 		notifyObserver();
 	}
-	
+
 	public String getLastMove(){
 		if(aMoveStack.isEmpty()) return null;
 		return aMoveStack.peek().toString();
 	}
-	
+
 	public Color getLastTurn(){
 		if(aMoveStack.isEmpty()) return Color.BLACK;
 		return aMoveStack.peek().getColor();
 	}
-	
+
 	public int getMoveCount(){
 		return aMoveCount;
 	}
-	
-    /**
-     * Reset the whole game. 
-     */
+
+	/**
+	 * Reset the whole game.
+	 */
 	public void reset(){
 		aChessBoard.reset();
 		aMoveStack.clear();
@@ -142,11 +148,11 @@ public class GameModel {
 		client.connect();
 		notifyObserver();
 	}
-	
+
 	public void saveGame(String pPath) {
 		aChessBoard.saveGame(pPath);
 	}
-	
+
 	/**
 	 * TODO: add load game function
 	 */
@@ -154,7 +160,7 @@ public class GameModel {
 		aChessBoard.loadGame(pPath);
 		notifyObserver();
 	}
-	
+
 	/**
 	 * Add observer
 	 * @param pObserver
@@ -162,19 +168,19 @@ public class GameModel {
 	public void addObserver(UIObserver pObserver){
 		aObserverList.add(pObserver);
 	}
-	
+
 	public void setTimerView(TimerView pView){
 		aTimerView = pView;
 	}
-	
+
 	/**
 	 * Tell the observer that the back-end data has changed.
-	 * Notify the UI to update itself. 
+	 * Notify the UI to update itself.
 	 */
 	public void updateUI(){
 		notifyObserver();
 	}
-	
+
 	public void timerTick(Color pColor){
 		if(pColor == Color.WHITE){
 			aWhiteTimer.tick();
@@ -182,7 +188,7 @@ public class GameModel {
 			aBlackTimer.tick();
 		}
 	}
-	
+
 	public StringProperty getTimerStringProperty(Color pColor){
 		if(pColor == Color.WHITE){
 			return aWhiteTimer.getStringProperty();
@@ -190,24 +196,24 @@ public class GameModel {
 			return aBlackTimer.getStringProperty();
 		}
 	}
-	
+
 	/**
 	 * Print the board in text View. Use it only for debugging purpose
 	 */
 	@Deprecated
-    public void printBackEnd(){
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                ChessPiece piece = aChessBoard.getPiece(i,j);
-                if(piece == null){
-                    System.out.print("NULL" +" | ");
-                }else{
-                    System.out.print(piece.toString() +" | ");
-                }
-            }
-            System.out.println("");
-        }
-    }
+	public void printBackEnd(){
+		for(int i = 0; i < 8; i++){
+			for(int j = 0; j < 8; j++){
+				ChessPiece piece = aChessBoard.getPiece(i,j);
+				if(piece == null){
+					System.out.print("NULL" +" | ");
+				}else{
+					System.out.print(piece.toString() +" | ");
+				}
+			}
+			System.out.println("");
+		}
+	}
 
 	private void notifyObserver(){
 		for(UIObserver observer: aObserverList){
@@ -215,7 +221,14 @@ public class GameModel {
 		}
 	}
 
-	public void receiveMessage(String s) {
-		aLastMessage = s;
+	public void receiveMessage(String msg) {
+		Gson gson = new Gson();
+		BasicMoveCommand command = gson.fromJson(msg, BasicMoveCommand.class);
+		Platform.runLater(new Runnable(){
+			@Override
+			public void run() {
+				executeMove(command);
+			}
+		});
 	}
 }

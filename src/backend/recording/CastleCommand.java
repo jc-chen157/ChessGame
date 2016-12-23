@@ -129,8 +129,8 @@ public class CastleCommand implements Command{
 	public Color getColor() {
 		return aKingPiece.getColor();
 	}
-	
-	@Override 
+
+	@Override
 	public String toString() {
 		if(aType == CastleType.SHORT) {
 			return "0-0";

@@ -12,15 +12,17 @@ import java.net.URI;
 public class SimpleClient extends WebSocketClient {
 
     String aLastMessage;
+    private boolean isConnected;
 
     public SimpleClient(URI serverURI) {
         super(serverURI);
         aLastMessage = null;
+        isConnected = false;
     }
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
-
+        isConnected = true;
     }
 
     @Override
@@ -30,11 +32,15 @@ public class SimpleClient extends WebSocketClient {
 
     @Override
     public void onClose(int i, String s, boolean b) {
-
+        isConnected = false;
     }
 
     @Override
     public void onError(Exception e) {
 
+    }
+
+    public boolean isConnected(){
+        return isConnected;
     }
 }

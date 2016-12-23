@@ -87,7 +87,6 @@ public class ChessBoardPanel extends GridPane implements UIObserver{
 		}
 		this.setPrefSize(640, 640);
 		this.setVisible(true);
-//      GameModel.getInstance().printBackEnd();
 	}
 
 	/**
@@ -154,7 +153,7 @@ public class ChessBoardPanel extends GridPane implements UIObserver{
                     // update UI and Model
 					Command command = RuleBook.generateMoveCommand(aSelectedPiece.getChessPiece(), pGrid);
 					if(command != null) {
-						GameModel.getInstance().executeMove(command);
+						GameModel.getInstance().sendCommandToServer(command);
 						aSelectedPiece = null;
                     }
 				}

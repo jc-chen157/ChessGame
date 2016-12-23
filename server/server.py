@@ -25,9 +25,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         for client in ws_clients:
-            client.write_message(u"" + message )
+            client.write_message(message )
 
     def on_close(self):
+        ws_clients.remove(self)
         print("WebSocket closed")
 
 app = tornado.web.Application(
