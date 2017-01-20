@@ -1,5 +1,6 @@
 # ChessGame
 Simple Chess Game implemented with Java.
-### Version 1.0.*
-Playable version. And yeah, only playable, nothing else.
 
+## Instruction
+
+Simply clone the repo and import the project as Maven Project. Once the import is done. Just run the ChessGame.java :)
